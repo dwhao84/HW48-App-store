@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		D38CCBC72BEBC41900B1F7FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBC62BEBC41900B1F7FA /* AppDelegate.swift */; };
 		D38CCBC92BEBC41900B1F7FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBC82BEBC41900B1F7FA /* SceneDelegate.swift */; };
-		D38CCBCB2BEBC41900B1F7FA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBCA2BEBC41900B1F7FA /* ViewController.swift */; };
 		D38CCBCE2BEBC41900B1F7FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D38CCBCC2BEBC41900B1F7FA /* Main.storyboard */; };
 		D38CCBD12BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBCF2BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld */; };
 		D38CCBD32BEBC41A00B1F7FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D38CCBD22BEBC41A00B1F7FA /* Assets.xcassets */; };
@@ -17,6 +16,10 @@
 		D38CCBE12BEBC41A00B1F7FA /* HW48_App_storeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBE02BEBC41A00B1F7FA /* HW48_App_storeTests.swift */; };
 		D38CCBEB2BEBC41A00B1F7FA /* HW48_App_storeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBEA2BEBC41A00B1F7FA /* HW48_App_storeUITests.swift */; };
 		D38CCBED2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBEC2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift */; };
+		D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */; };
+		D38CCBFD2BEBC4F300B1F7FA /* FreeAppRankModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBFC2BEBC4F300B1F7FA /* FreeAppRankModel.swift */; };
+		D38CCBFF2BEBC50900B1F7FA /* PaidAppRankModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBFE2BEBC50900B1F7FA /* PaidAppRankModel.swift */; };
+		D38CCC022BEBCC2D00B1F7FA /* AppDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC012BEBCC2D00B1F7FA /* AppDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +43,6 @@
 		D38CCBC32BEBC41900B1F7FA /* HW48-App store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HW48-App store.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D38CCBC62BEBC41900B1F7FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D38CCBC82BEBC41900B1F7FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D38CCBCA2BEBC41900B1F7FA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D38CCBCD2BEBC41900B1F7FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D38CCBD02BEBC41900B1F7FA /* HW48_App_store.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HW48_App_store.xcdatamodel; sourceTree = "<group>"; };
 		D38CCBD22BEBC41A00B1F7FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,6 +53,10 @@
 		D38CCBE62BEBC41A00B1F7FA /* HW48-App storeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HW48-App storeUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D38CCBEA2BEBC41A00B1F7FA /* HW48_App_storeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HW48_App_storeUITests.swift; sourceTree = "<group>"; };
 		D38CCBEC2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HW48_App_storeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreViewController.swift; sourceTree = "<group>"; };
+		D38CCBFC2BEBC4F300B1F7FA /* FreeAppRankModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppRankModel.swift; sourceTree = "<group>"; };
+		D38CCBFE2BEBC50900B1F7FA /* PaidAppRankModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidAppRankModel.swift; sourceTree = "<group>"; };
+		D38CCC012BEBCC2D00B1F7FA /* AppDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,12 +107,10 @@
 		D38CCBC52BEBC41900B1F7FA /* HW48-App store */ = {
 			isa = PBXGroup;
 			children = (
-				D38CCBC62BEBC41900B1F7FA /* AppDelegate.swift */,
-				D38CCBC82BEBC41900B1F7FA /* SceneDelegate.swift */,
-				D38CCBCA2BEBC41900B1F7FA /* ViewController.swift */,
-				D38CCBCC2BEBC41900B1F7FA /* Main.storyboard */,
-				D38CCBD22BEBC41A00B1F7FA /* Assets.xcassets */,
-				D38CCBD42BEBC41A00B1F7FA /* LaunchScreen.storyboard */,
+				D38CCBF92BEBC43900B1F7FA /* Supporting FIles */,
+				D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */,
+				D38CCC012BEBCC2D00B1F7FA /* AppDetailViewController.swift */,
+				D38CCC002BEBC52000B1F7FA /* Model */,
 				D38CCBD72BEBC41A00B1F7FA /* Info.plist */,
 				D38CCBCF2BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld */,
 			);
@@ -128,6 +132,27 @@
 				D38CCBEC2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift */,
 			);
 			path = "HW48-App storeUITests";
+			sourceTree = "<group>";
+		};
+		D38CCBF92BEBC43900B1F7FA /* Supporting FIles */ = {
+			isa = PBXGroup;
+			children = (
+				D38CCBC62BEBC41900B1F7FA /* AppDelegate.swift */,
+				D38CCBC82BEBC41900B1F7FA /* SceneDelegate.swift */,
+				D38CCBCC2BEBC41900B1F7FA /* Main.storyboard */,
+				D38CCBD42BEBC41A00B1F7FA /* LaunchScreen.storyboard */,
+				D38CCBD22BEBC41A00B1F7FA /* Assets.xcassets */,
+			);
+			path = "Supporting FIles";
+			sourceTree = "<group>";
+		};
+		D38CCC002BEBC52000B1F7FA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D38CCBFC2BEBC4F300B1F7FA /* FreeAppRankModel.swift */,
+				D38CCBFE2BEBC50900B1F7FA /* PaidAppRankModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,9 +286,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D38CCBCB2BEBC41900B1F7FA /* ViewController.swift in Sources */,
 				D38CCBC72BEBC41900B1F7FA /* AppDelegate.swift in Sources */,
+				D38CCBFD2BEBC4F300B1F7FA /* FreeAppRankModel.swift in Sources */,
 				D38CCBD12BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld in Sources */,
+				D38CCBFF2BEBC50900B1F7FA /* PaidAppRankModel.swift in Sources */,
+				D38CCC022BEBCC2D00B1F7FA /* AppDetailViewController.swift in Sources */,
+				D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */,
 				D38CCBC92BEBC41900B1F7FA /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
