@@ -17,9 +17,10 @@
 		D38CCBEB2BEBC41A00B1F7FA /* HW48_App_storeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBEA2BEBC41A00B1F7FA /* HW48_App_storeUITests.swift */; };
 		D38CCBED2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBEC2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift */; };
 		D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */; };
-		D38CCBFD2BEBC4F300B1F7FA /* FreeAppRankModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBFC2BEBC4F300B1F7FA /* FreeAppRankModel.swift */; };
-		D38CCBFF2BEBC50900B1F7FA /* PaidAppRankModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBFE2BEBC50900B1F7FA /* PaidAppRankModel.swift */; };
-		D38CCC022BEBCC2D00B1F7FA /* AppDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC012BEBCC2D00B1F7FA /* AppDetailViewController.swift */; };
+		D38CCC042BEBD6E700B1F7FA /* AppStoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC032BEBD6E700B1F7FA /* AppStoreDetailViewController.swift */; };
+		D38CCC062BEBDA3400B1F7FA /* AppStoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */; };
+		D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC072BEC991C00B1F7FA /* Colors.swift */; };
+		D38CCC0A2BED3C0900B1F7FA /* AppRankModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +55,10 @@
 		D38CCBEA2BEBC41A00B1F7FA /* HW48_App_storeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HW48_App_storeUITests.swift; sourceTree = "<group>"; };
 		D38CCBEC2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HW48_App_storeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreViewController.swift; sourceTree = "<group>"; };
-		D38CCBFC2BEBC4F300B1F7FA /* FreeAppRankModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppRankModel.swift; sourceTree = "<group>"; };
-		D38CCBFE2BEBC50900B1F7FA /* PaidAppRankModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidAppRankModel.swift; sourceTree = "<group>"; };
-		D38CCC012BEBCC2D00B1F7FA /* AppDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailViewController.swift; sourceTree = "<group>"; };
+		D38CCC032BEBD6E700B1F7FA /* AppStoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreDetailViewController.swift; sourceTree = "<group>"; };
+		D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreTableViewCell.swift; sourceTree = "<group>"; };
+		D38CCC072BEC991C00B1F7FA /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRankModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,8 +111,10 @@
 			children = (
 				D38CCBF92BEBC43900B1F7FA /* Supporting FIles */,
 				D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */,
-				D38CCC012BEBCC2D00B1F7FA /* AppDetailViewController.swift */,
+				D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */,
+				D38CCC032BEBD6E700B1F7FA /* AppStoreDetailViewController.swift */,
 				D38CCC002BEBC52000B1F7FA /* Model */,
+				D38CCC072BEC991C00B1F7FA /* Colors.swift */,
 				D38CCBD72BEBC41A00B1F7FA /* Info.plist */,
 				D38CCBCF2BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld */,
 			);
@@ -149,8 +153,7 @@
 		D38CCC002BEBC52000B1F7FA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D38CCBFC2BEBC4F300B1F7FA /* FreeAppRankModel.swift */,
-				D38CCBFE2BEBC50900B1F7FA /* PaidAppRankModel.swift */,
+				D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -286,13 +289,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D38CCC042BEBD6E700B1F7FA /* AppStoreDetailViewController.swift in Sources */,
 				D38CCBC72BEBC41900B1F7FA /* AppDelegate.swift in Sources */,
-				D38CCBFD2BEBC4F300B1F7FA /* FreeAppRankModel.swift in Sources */,
 				D38CCBD12BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld in Sources */,
-				D38CCBFF2BEBC50900B1F7FA /* PaidAppRankModel.swift in Sources */,
-				D38CCC022BEBCC2D00B1F7FA /* AppDetailViewController.swift in Sources */,
+				D38CCC0A2BED3C0900B1F7FA /* AppRankModel.swift in Sources */,
 				D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */,
+				D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */,
 				D38CCBC92BEBC41900B1F7FA /* SceneDelegate.swift in Sources */,
+				D38CCC062BEBDA3400B1F7FA /* AppStoreTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
