@@ -50,6 +50,7 @@ class AppStoreViewController: UIViewController {
         
     // MARK: - Set up UI:
     func setupUI () {
+        self.view.backgroundColor = Colors.CustomBackgroundColor
         addTargets()
         setNavigationView()
         addConstraints()
