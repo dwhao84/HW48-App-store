@@ -5,7 +5,6 @@
 //  Created by Dawei Hao on 2024/5/9.
 //
 
-import Foundation
 import UIKit
 
 struct Colors {
@@ -15,4 +14,5 @@ struct Colors {
     static let white: UIColor     = UIColor.white
     static let blue: UIColor      = UIColor.systemBlue
     static let clear: UIColor     = UIColor.clear
+    static let CustomTitleColor: UIColor = UIColor(named: "CustomColor") ?? UIColor.white
 }
