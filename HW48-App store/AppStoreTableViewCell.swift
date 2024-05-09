@@ -11,8 +11,6 @@ class AppStoreTableViewCell: UITableViewCell {
 
     static let identifier: String = "AppStoreTableViewCell"
     
-    
-    
     var iconImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -26,7 +24,7 @@ class AppStoreTableViewCell: UITableViewCell {
     var numberLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "1"
-        label.textColor = Colors.darkGray
+        label.textColor = Colors.CustomTitleColor
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.adjustsFontSizeToFitWidth = true
@@ -37,7 +35,7 @@ class AppStoreTableViewCell: UITableViewCell {
     var appNameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "App Name"
-        label.textColor = Colors.darkGray
+        label.textColor = Colors.CustomTitleColor
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 1
@@ -49,7 +47,7 @@ class AppStoreTableViewCell: UITableViewCell {
     var appDescripionLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "App Description"
-        label.textColor = Colors.darkGray
+        label.textColor = Colors.lightGray
         label.textAlignment = .left
         label.numberOfLines = 1
         label.font = UIFont.systemFont(ofSize: 13)
