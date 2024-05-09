@@ -58,6 +58,7 @@ class AppStoreViewController: UIViewController {
         configPaidTableView()
     }
 
+    // MARK: - Set up NavigationView:
     func setNavigationView () {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
@@ -65,6 +66,7 @@ class AppStoreViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: allAppBtn)
     }
     
+    // MARK: - Configure TableViews:
     func configFreeTableView () {
         freeAppTableView.delegate = self
         freeAppTableView.dataSource = self
@@ -72,6 +74,7 @@ class AppStoreViewController: UIViewController {
         freeAppTableView.allowsSelection = true
         freeAppTableView.separatorStyle = .singleLine
         freeAppTableView.register(AppStoreTableViewCell.self, forCellReuseIdentifier: AppStoreTableViewCell.identifier)
+        freeAppTableView.isScrollEnabled = true
     }
     
     func configPaidTableView () {
@@ -80,12 +83,16 @@ class AppStoreViewController: UIViewController {
         paidAppTableView.rowHeight = 100
         paidAppTableView.allowsSelection = true
         paidAppTableView.separatorStyle = .singleLine
+        paidAppTableView.register(AppStoreTableViewCell.self, forCellReuseIdentifier: AppStoreTableViewCell.identifier)
+        paidAppTableView.isScrollEnabled = true
     }
     
+    // MARK: - Add Targets:
     func addTargets () {
         segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
     }
     
+    // MARK: - Add Constraints:
     func addConstraints () {
         view.addSubview(segmenteControl)
         view.addSubview(freeAppTableView)
@@ -113,10 +120,10 @@ class AppStoreViewController: UIViewController {
         ])
     }
     
+    // MARK: - Add Actions:
     @objc func segmentedControlValueChanged (_ sender: UISegmentedControl) {
         
         switch sender.selectedSegmentIndex {
-            
         case 0:
             print("DEBUG PRINT: Switch to Free App")
             paidAppTableView.isHidden = true
