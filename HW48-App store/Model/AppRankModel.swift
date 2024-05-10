@@ -18,6 +18,10 @@ import UIKit
  https://itunes.apple.com/lookup?id=1164801111&country=tw
  */
 
+struct AppStore: Codable {
+    let feed: Feed
+}
+
 struct Feed: Codable {
     let title: String
     let id: String
