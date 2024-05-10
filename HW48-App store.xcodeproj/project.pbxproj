@@ -21,6 +21,7 @@
 		D38CCC062BEBDA3400B1F7FA /* AppStoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */; };
 		D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC072BEC991C00B1F7FA /* Colors.swift */; };
 		D38CCC0A2BED3C0900B1F7FA /* AppRankModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */; };
+		D38CCC0D2BEE664C00B1F7FA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D38CCC0C2BEE664C00B1F7FA /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D38CCC0D2BEE664C00B1F7FA /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,6 +176,9 @@
 			dependencies = (
 			);
 			name = "HW48-App store";
+			packageProductDependencies = (
+				D38CCC0C2BEE664C00B1F7FA /* Kingfisher */,
+			);
 			productName = "HW48-App store";
 			productReference = D38CCBC32BEBC41900B1F7FA /* HW48-App store.app */;
 			productType = "com.apple.product-type.application";
@@ -246,6 +251,9 @@
 				Base,
 			);
 			mainGroup = D38CCBBA2BEBC41900B1F7FA;
+			packageReferences = (
+				D38CCC0B2BEE664C00B1F7FA /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = D38CCBC42BEBC41900B1F7FA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -643,6 +651,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D38CCC0B2BEE664C00B1F7FA /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D38CCC0C2BEE664C00B1F7FA /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D38CCC0B2BEE664C00B1F7FA /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		D38CCBCF2BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld */ = {
