@@ -26,6 +26,7 @@ class AppStoreTableViewCell: UITableViewCell {
         label.text = "1"
         label.textColor = Colors.CustomTitleColor
         label.textAlignment = .left
+        label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,8 +39,7 @@ class AppStoreTableViewCell: UITableViewCell {
         label.textColor = Colors.CustomTitleColor
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     } ()
@@ -81,7 +81,7 @@ class AppStoreTableViewCell: UITableViewCell {
         let stackView: UIStackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .top
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -122,11 +122,14 @@ class AppStoreTableViewCell: UITableViewCell {
     func configStackView () {
         iconImageView.widthAnchor.constraint(equalToConstant: 75).isActive = true
         iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor, multiplier: 1).isActive = true
-        
-        contentStackView.addArrangedSubview(appNameLabel)
-        contentStackView.addArrangedSubview(appDescripionLabel)
+                
+        // 照片 & 順序
         imageContentStackView.addArrangedSubview(iconImageView)
         imageContentStackView.addArrangedSubview(numberLabel)
+        
+        // App名稱 & App產品說明
+        contentStackView.addArrangedSubview(appNameLabel)
+        contentStackView.addArrangedSubview(appDescripionLabel)
     }
     
     func addConstraints() {
@@ -138,11 +141,15 @@ class AppStoreTableViewCell: UITableViewCell {
         serviceBtn.heightAnchor.constraint(equalTo: serviceBtn.widthAnchor, multiplier: 0.45).isActive = true
         
         NSLayoutConstraint.activate([
+            
+            // 設定 imageContentStackView
             imageContentStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             imageContentStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             
-            contentStackView.leadingAnchor.constraint(equalTo: imageContentStackView.trailingAnchor, constant: 20),
+            // 設定 cotentStackView
+            contentStackView.leadingAnchor.constraint(equalTo: imageContentStackView.trailingAnchor, constant: -40),
             contentStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            contentStackView.trailingAnchor.constraint(lessThanOrEqualTo: serviceBtn.leadingAnchor, constant: -20),
             
             serviceBtn.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             serviceBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
