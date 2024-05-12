@@ -11,8 +11,9 @@ import Kingfisher
 class AppStoreViewController: UIViewController {
     
     let largetTitle: String = "Top Charts"
-    
-    var appStoreData: AppStore?
+        
+    var freeAppsData: AppStore?
+    var paidAppsData: AppStore?
     
     // MARK: - UI Setup:
     var segmenteControl = {
@@ -54,9 +55,11 @@ class AppStoreViewController: UIViewController {
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData()
-        setupUI()
         
+        fetchFreeAppsData()
+        fetchPaidAppsData()
+        
+        setupUI()
     }
     
     // MARK: - Set up UI:
@@ -97,7 +100,7 @@ class AppStoreViewController: UIViewController {
         paidAppTableView.rowHeight = 100
         paidAppTableView.allowsSelection = true
         paidAppTableView.separatorStyle = .singleLine
-        paidAppTableView.register(AppStoreTableViewCell.self, forCellReuseIdentifier: AppStoreTableViewCell.identifier)
+        paidAppTableView.register(PaidAppsTableViewCell.self, forCellReuseIdentifier: PaidAppsTableViewCell.identifier)
         paidAppTableView.isScrollEnabled = true
         paidAppTableView.refreshControl = refreshControl
     }
@@ -118,7 +121,7 @@ class AppStoreViewController: UIViewController {
             segmenteControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             segmenteControl.heightAnchor.constraint(equalToConstant: 30)
         ])
-        
+
         NSLayoutConstraint.activate([
             freeAppTableView.topAnchor.constraint(equalTo: segmenteControl.bottomAnchor, constant: 20),
             freeAppTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -161,7 +164,7 @@ class AppStoreViewController: UIViewController {
     }
     
     // MARK: - Fetch Data:
-    func fetchData() {
+    func fetchFreeAppsData() {
         let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
         guard let url = URL(string: baseUrl) else { return }
 
@@ -188,8 +191,45 @@ class AppStoreViewController: UIViewController {
             do {
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
                 DispatchQueue.main.async {
-                    self?.appStoreData = appStoreDatas
+                    self?.freeAppsData = appStoreDatas
                     self?.freeAppTableView.reloadData()
+                }
+            } catch {
+                print("Error decoding data: \(error.localizedDescription)")
+                print("Full error: \(error)")
+            }
+        }.resume()
+    }
+    
+    func fetchPaidAppsData() {
+        let baseUrl: String = " https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
+        guard let url = URL(string: baseUrl) else { return }
+
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            
+            print(String(data: data!, encoding: .utf8) ?? "Invalid data")
+            
+            if let error = error {
+                print("Error fetching data: \(error.localizedDescription)")
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Error with the response, unexpected status code: \(String(describing: response))")
+                return
+            }
+
+            guard let data = data else {
+                print("No data Received")
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            do {
+                let appStoreDatas = try decoder.decode(AppStore.self, from: data)
+                DispatchQueue.main.async {
+                    self?.paidAppsData = appStoreDatas
+                    self?.paidAppTableView.reloadData()
                 }
             } catch {
                 print("Error decoding data: \(error.localizedDescription)")
@@ -203,27 +243,71 @@ class AppStoreViewController: UIViewController {
 // MARK: - Extension:
 extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("\(appStoreData?.feed.results.count ?? 1)")
-        return appStoreData?.feed.results.count ?? 1
+        print("\(freeAppsData?.feed.results.count ?? 1)")
+        
+        switch tableView {
+            
+        case paidAppTableView:
+            return paidAppsData?.feed.results.count ?? 1
+            
+        case freeAppTableView:
+            return freeAppsData?.feed.results.count ?? 1
+            
+        default:
+            break
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AppStoreTableViewCell.identifier, for: indexPath) as! AppStoreTableViewCell
         
-        let appStoreIndexPath = appStoreData?.feed.results[indexPath.row]
-        cell.appNameLabel.text       = appStoreIndexPath?.name
-        cell.numberLabel.text        = String(indexPath.row + 1)
-        cell.appDescripionLabel.text = appStoreIndexPath?.artistName
-        
-        if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
-            cell.iconImageView.kf.setImage(with: url)
-            print("DEBUG PRINT: Kingfisher is working.")
-        } else {
-            cell.iconImageView.image = UIImage(named: "01.png")
-            print("DEBUG PRINT: Kingfisher is not working.")
+        switch tableView {
+            
+        case paidAppTableView:
+            
+            print("DEBUG PRINT: cellForRowAt -> paidAppTableView")
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: PaidAppsTableViewCell.identifier, for: indexPath) as! PaidAppsTableViewCell
+            
+            let appStoreIndexPath = paidAppsData?.feed.results[indexPath.row]
+            cell.appNameLabel.text       = appStoreIndexPath?.name
+            cell.numberLabel.text        = String(indexPath.row + 1)
+            cell.appDescripionLabel.text = appStoreIndexPath?.artistName
+            
+            if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
+                cell.iconImageView.kf.setImage(with: url)
+                print("DEBUG PRINT: Kingfisher is working.")
+            } else {
+                cell.iconImageView.image = UIImage(named: "01.png")
+                print("DEBUG PRINT: Kingfisher is not working.")
+            }
+            return cell
+            
+        case freeAppTableView:
+            
+            print("DEBUG PRINT: cellForRowAt -> freeAppTableView")
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: AppStoreTableViewCell.identifier, for: indexPath) as! AppStoreTableViewCell
+            let appStoreIndexPath = freeAppsData?.feed.results[indexPath.row]
+            cell.appNameLabel.text       = appStoreIndexPath?.name
+            cell.numberLabel.text        = String(indexPath.row + 1)
+            cell.appDescripionLabel.text = appStoreIndexPath?.artistName
+            
+            if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
+                cell.iconImageView.kf.setImage(with: url)
+                print("DEBUG PRINT: Kingfisher is working.")
+            } else {
+                cell.iconImageView.image = UIImage(named: "01.png")
+                print("DEBUG PRINT: Kingfisher is not working.")
+            }
+            return cell
+            
+        default:
+            print("DEBUG PRINT: cellForRowAt break")
+            break
         }
         
-        return cell
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
