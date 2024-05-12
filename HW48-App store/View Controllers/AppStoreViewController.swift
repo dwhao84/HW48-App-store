@@ -68,7 +68,6 @@ class AppStoreViewController: UIViewController {
         
         configFreeTableView()
         configPaidTableView()
-        
     }
     
     
@@ -100,6 +99,7 @@ class AppStoreViewController: UIViewController {
         paidAppTableView.separatorStyle = .singleLine
         paidAppTableView.register(AppStoreTableViewCell.self, forCellReuseIdentifier: AppStoreTableViewCell.identifier)
         paidAppTableView.isScrollEnabled = true
+        paidAppTableView.refreshControl = refreshControl
     }
     
     // MARK: - Add Targets:
@@ -217,10 +217,10 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
         
         if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
             cell.iconImageView.kf.setImage(with: url)
-            print("DEBUG PRINT: Kingfisher is working")
+            print("DEBUG PRINT: Kingfisher is working.")
         } else {
             cell.iconImageView.image = UIImage(named: "01.png")
-            print("DEBUG PRINT: Kingfisher is not working.s")
+            print("DEBUG PRINT: Kingfisher is not working.")
         }
         
         return cell
