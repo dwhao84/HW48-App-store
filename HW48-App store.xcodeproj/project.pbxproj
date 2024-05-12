@@ -18,7 +18,6 @@
 		D38CCBED2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBEC2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift */; };
 		D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */; };
 		D38CCC042BEBD6E700B1F7FA /* AppStoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC032BEBD6E700B1F7FA /* AppStoreDetailViewController.swift */; };
-		D38CCC062BEBDA3400B1F7FA /* AppStoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */; };
 		D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC072BEC991C00B1F7FA /* Colors.swift */; };
 		D38CCC0A2BED3C0900B1F7FA /* AppRankModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */; };
 		D38CCC0D2BEE664C00B1F7FA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D38CCC0C2BEE664C00B1F7FA /* Kingfisher */; };
@@ -64,7 +63,6 @@
 		D38CCBEC2BEBC41A00B1F7FA /* HW48_App_storeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HW48_App_storeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreViewController.swift; sourceTree = "<group>"; };
 		D38CCC032BEBD6E700B1F7FA /* AppStoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreDetailViewController.swift; sourceTree = "<group>"; };
-		D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreTableViewCell.swift; sourceTree = "<group>"; };
 		D38CCC072BEC991C00B1F7FA /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRankModel.swift; sourceTree = "<group>"; };
 		D38CCC0E2BEFCA4F00B1F7FA /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 		D3C7434A2BF0C79200FBB66C /* Custom Cells */ = {
 			isa = PBXGroup;
 			children = (
-				D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */,
 				D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */,
 				D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */,
 			);
@@ -355,7 +352,6 @@
 				D3C7434F2BF0CC1500FBB66C /* ImagesData.swift in Sources */,
 				D38CCBC92BEBC41900B1F7FA /* SceneDelegate.swift in Sources */,
 				D38CCC132BEFCA6A00B1F7FA /* ArcadeViewController.swift in Sources */,
-				D38CCC062BEBDA3400B1F7FA /* AppStoreTableViewCell.swift in Sources */,
 				D3C743472BF0C60900FBB66C /* PaidAppsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -61,7 +61,7 @@ class PaidAppsTableViewCell: UITableViewCell {
         let btn: UIButton = UIButton()
         var config = UIButton.Configuration.gray()
         config.baseForegroundColor = Colors.blue
-        var title = AttributedString("Open")
+        var title = AttributedString("Price")
         title.font = UIFont.boldSystemFont(ofSize: 17)
         config.attributedTitle = title
         config.cornerStyle = .capsule
