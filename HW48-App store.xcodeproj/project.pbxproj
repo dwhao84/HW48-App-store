@@ -26,9 +26,9 @@
 		D38CCC112BEFCA6000B1F7FA /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC102BEFCA6000B1F7FA /* GamesViewController.swift */; };
 		D38CCC132BEFCA6A00B1F7FA /* ArcadeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC122BEFCA6A00B1F7FA /* ArcadeViewController.swift */; };
 		D38CCC152BEFCA7700B1F7FA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC142BEFCA7700B1F7FA /* SearchViewController.swift */; };
-		D38CCC172BEFCB8600B1F7FA /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC162BEFCB8600B1F7FA /* Images.swift */; };
 		D3C743472BF0C60900FBB66C /* PaidAppsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */; };
 		D3C743492BF0C63500FBB66C /* FreeAppsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */; };
+		D3C7434F2BF0CC1500FBB66C /* ImagesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C7434E2BF0CC1500FBB66C /* ImagesData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,9 +71,9 @@
 		D38CCC102BEFCA6000B1F7FA /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		D38CCC122BEFCA6A00B1F7FA /* ArcadeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeViewController.swift; sourceTree = "<group>"; };
 		D38CCC142BEFCA7700B1F7FA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		D38CCC162BEFCB8600B1F7FA /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidAppsTableViewCell.swift; sourceTree = "<group>"; };
 		D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppsTableViewCell.swift; sourceTree = "<group>"; };
+		D3C7434E2BF0CC1500FBB66C /* ImagesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,7 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				D38CCC072BEC991C00B1F7FA /* Colors.swift */,
-				D38CCC162BEFCB8600B1F7FA /* Images.swift */,
+				D3C7434E2BF0CC1500FBB66C /* ImagesData.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -347,12 +347,12 @@
 				D38CCBC72BEBC41900B1F7FA /* AppDelegate.swift in Sources */,
 				D38CCC0F2BEFCA4F00B1F7FA /* TodayViewController.swift in Sources */,
 				D38CCBD12BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld in Sources */,
-				D38CCC172BEFCB8600B1F7FA /* Images.swift in Sources */,
 				D38CCC112BEFCA6000B1F7FA /* GamesViewController.swift in Sources */,
 				D38CCC0A2BED3C0900B1F7FA /* AppRankModel.swift in Sources */,
 				D38CCC152BEFCA7700B1F7FA /* SearchViewController.swift in Sources */,
 				D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */,
 				D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */,
+				D3C7434F2BF0CC1500FBB66C /* ImagesData.swift in Sources */,
 				D38CCBC92BEBC41900B1F7FA /* SceneDelegate.swift in Sources */,
 				D38CCC132BEFCA6A00B1F7FA /* ArcadeViewController.swift in Sources */,
 				D38CCC062BEBDA3400B1F7FA /* AppStoreTableViewCell.swift in Sources */,
