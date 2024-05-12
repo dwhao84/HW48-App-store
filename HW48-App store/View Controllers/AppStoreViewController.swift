@@ -55,15 +55,16 @@ class AppStoreViewController: UIViewController {
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        fetchFreeAppsData()
-        fetchPaidAppsData()
-        
+                
         setupUI()
     }
     
     // MARK: - Set up UI:
     func setupUI () {
+        
+        freeAppTableView.isHidden = false
+        paidAppTableView.isHidden = true
+        
         self.view.backgroundColor = Colors.CustomBackgroundColor
         addTargets()
         setNavigationView()
@@ -71,6 +72,9 @@ class AppStoreViewController: UIViewController {
         
         configFreeTableView()
         configPaidTableView()
+        
+        fetchFreeAppsData()
+        fetchPaidAppsData()
     }
     
     
@@ -89,7 +93,7 @@ class AppStoreViewController: UIViewController {
         freeAppTableView.rowHeight = 100
         freeAppTableView.allowsSelection = true
         freeAppTableView.separatorStyle = .singleLine
-        freeAppTableView.register(AppStoreTableViewCell.self, forCellReuseIdentifier: AppStoreTableViewCell.identifier)
+        freeAppTableView.register(FreeAppsTableViewCell.self, forCellReuseIdentifier: FreeAppsTableViewCell.identifier)
         freeAppTableView.isScrollEnabled = true
         freeAppTableView.refreshControl = refreshControl
     }
@@ -147,12 +151,12 @@ class AppStoreViewController: UIViewController {
             print("DEBUG PRINT: Switch to Free App")
             paidAppTableView.isHidden = true
             freeAppTableView.isHidden = false
-            
+            freeAppTableView.reloadData()
         case 1:
             print("DEBUG PRINT: Switch to Paid App")
             paidAppTableView.isHidden = false
             freeAppTableView.isHidden = true
-            
+            paidAppTableView.reloadData()
         default:
             break
         }
@@ -164,6 +168,7 @@ class AppStoreViewController: UIViewController {
     }
     
     // MARK: - Fetch Data:
+    // MARK: Free Apps
     func fetchFreeAppsData() {
         let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
         guard let url = URL(string: baseUrl) else { return }
@@ -201,6 +206,7 @@ class AppStoreViewController: UIViewController {
         }.resume()
     }
     
+    // MARK: Paid Apps
     func fetchPaidAppsData() {
         let baseUrl: String = " https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
         guard let url = URL(string: baseUrl) else { return }
@@ -244,27 +250,17 @@ class AppStoreViewController: UIViewController {
 extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("\(freeAppsData?.feed.results.count ?? 1)")
-        
-        switch tableView {
-            
-        case paidAppTableView:
+        print("\(paidAppsData?.feed.results.count ?? 1)")
+        if tableView == paidAppTableView {
             return paidAppsData?.feed.results.count ?? 1
-            
-        case freeAppTableView:
+        } else {
             return freeAppsData?.feed.results.count ?? 1
-            
-        default:
-            break
         }
-        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch tableView {
-            
-        case paidAppTableView:
-            
+        if tableView ==  paidAppTableView {
             print("DEBUG PRINT: cellForRowAt -> paidAppTableView")
             
             let cell = tableView.dequeueReusableCell(withIdentifier: PaidAppsTableViewCell.identifier, for: indexPath) as! PaidAppsTableViewCell
@@ -283,11 +279,10 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
             }
             return cell
             
-        case freeAppTableView:
-            
+        } else {
             print("DEBUG PRINT: cellForRowAt -> freeAppTableView")
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: AppStoreTableViewCell.identifier, for: indexPath) as! AppStoreTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: FreeAppsTableViewCell.identifier, for: indexPath) as! FreeAppsTableViewCell
             let appStoreIndexPath = freeAppsData?.feed.results[indexPath.row]
             cell.appNameLabel.text       = appStoreIndexPath?.name
             cell.numberLabel.text        = String(indexPath.row + 1)
@@ -301,13 +296,7 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
                 print("DEBUG PRINT: Kingfisher is not working.")
             }
             return cell
-            
-        default:
-            print("DEBUG PRINT: cellForRowAt break")
-            break
         }
-        
-        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
