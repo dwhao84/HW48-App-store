@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ImagesData {
+struct Images {
     static let today: UIImage    = UIImage(systemName: "doc.text.image")!
     static let games: UIImage    = UIImage(systemName: "airplane.departure")!
     static let app: UIImage      = UIImage(systemName: "square.stack.3d.up.fill")!
