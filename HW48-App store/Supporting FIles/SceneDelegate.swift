@@ -21,17 +21,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         let appStoreVC = AppStoreViewController() // Assuming this ViewController exists and is set up correctly.
-
-        // Wrap the `appStoreVC` in a navigation controller.
-        let navigationController = UINavigationController(rootViewController: appStoreVC)
         
         // Create a UITabBarController and add the navigation controller to it.
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [navigationController]
+        tabBarController.viewControllers = [
+            createTodayNC(),
+            createGamesNC(),
+            createAppNC(),
+            createArcadeNC(),
+            createSearchNC()
+        ]
         
-        // Set tab bar item for the navigation controller.
-        navigationController.tabBarItem = UITabBarItem(title: "Apps", image: UIImage(systemName: "square.stack.3d.up.fill"), selectedImage: nil)
-
         // Set the rootViewController of the window to the tabBarController.
         window.rootViewController = tabBarController
         
@@ -39,7 +39,46 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         self.window?.makeKeyAndVisible()
     }
+    
+    func createTodayNC () -> UINavigationController {
+        let todayVC = TodayViewController()
+        let todayNC = UINavigationController(rootViewController: todayVC)
+        todayNC.tabBarItem.title = "Today"
+        todayNC.tabBarItem.image = Images.today
+        return todayNC
+    }
+    
+    func createGamesNC () -> UINavigationController {
+        let gameVC = GamesViewController()
+        let gameNC = UINavigationController(rootViewController: gameVC)
+        gameNC.tabBarItem.title = "Games"
+        gameNC.tabBarItem.image = Images.games
+        return gameNC
+    }
+    
+    func createAppNC () -> UINavigationController {
+        let appStoreVC = AppStoreViewController()
+        let appStoreNC = UINavigationController(rootViewController: appStoreVC)
+        appStoreNC.tabBarItem.title = "Apps"
+        appStoreNC.tabBarItem.image = Images.app
+        return appStoreNC
+    }
 
+    func createArcadeNC () -> UINavigationController {
+        let arcadeVC = ArcadeViewController()
+        let arcadeNC = UINavigationController(rootViewController: arcadeVC)
+        arcadeNC.tabBarItem.title = "Arcade"
+        arcadeNC.tabBarItem.image = Images.arcade
+        return arcadeNC
+    }
+    
+    func createSearchNC () -> UINavigationController {
+        let searchVC = SearchViewController()
+        let searchNC = UINavigationController(rootViewController: searchVC)
+        searchNC.tabBarItem.title = "Search"
+        searchNC.tabBarItem.image = Images.search
+        return searchNC
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
