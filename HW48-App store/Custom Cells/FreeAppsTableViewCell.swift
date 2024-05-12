@@ -191,6 +191,6 @@ class FreeAppsTableViewCell: UITableViewCell {
 
 // MARK: - Preview:
 #Preview(traits: .fixedLayout(width: 428, height: 100), body: {
-    let cell: UITableViewCell = AppStoreTableViewCell()
+    let cell: UITableViewCell = FreeAppsTableViewCell()
     return cell
 })
