@@ -56,5 +56,3 @@ struct Result: Codable {
     let artworkUrl100: String
     let url: String
 }
-
-

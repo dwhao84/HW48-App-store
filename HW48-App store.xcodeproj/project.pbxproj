@@ -22,6 +22,13 @@
 		D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC072BEC991C00B1F7FA /* Colors.swift */; };
 		D38CCC0A2BED3C0900B1F7FA /* AppRankModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */; };
 		D38CCC0D2BEE664C00B1F7FA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D38CCC0C2BEE664C00B1F7FA /* Kingfisher */; };
+		D38CCC0F2BEFCA4F00B1F7FA /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC0E2BEFCA4F00B1F7FA /* TodayViewController.swift */; };
+		D38CCC112BEFCA6000B1F7FA /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC102BEFCA6000B1F7FA /* GamesViewController.swift */; };
+		D38CCC132BEFCA6A00B1F7FA /* ArcadeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC122BEFCA6A00B1F7FA /* ArcadeViewController.swift */; };
+		D38CCC152BEFCA7700B1F7FA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC142BEFCA7700B1F7FA /* SearchViewController.swift */; };
+		D38CCC172BEFCB8600B1F7FA /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38CCC162BEFCB8600B1F7FA /* Images.swift */; };
+		D3C743472BF0C60900FBB66C /* PaidAppsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */; };
+		D3C743492BF0C63500FBB66C /* FreeAppsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +67,13 @@
 		D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreTableViewCell.swift; sourceTree = "<group>"; };
 		D38CCC072BEC991C00B1F7FA /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRankModel.swift; sourceTree = "<group>"; };
+		D38CCC0E2BEFCA4F00B1F7FA /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		D38CCC102BEFCA6000B1F7FA /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
+		D38CCC122BEFCA6A00B1F7FA /* ArcadeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeViewController.swift; sourceTree = "<group>"; };
+		D38CCC142BEFCA7700B1F7FA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		D38CCC162BEFCB8600B1F7FA /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidAppsTableViewCell.swift; sourceTree = "<group>"; };
+		D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,11 +126,10 @@
 			isa = PBXGroup;
 			children = (
 				D38CCBF92BEBC43900B1F7FA /* Supporting FIles */,
-				D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */,
-				D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */,
-				D38CCC032BEBD6E700B1F7FA /* AppStoreDetailViewController.swift */,
+				D38CCC1A2BF0BBC900B1F7FA /* View Controllers */,
+				D3C7434A2BF0C79200FBB66C /* Custom Cells */,
 				D38CCC002BEBC52000B1F7FA /* Model */,
-				D38CCC072BEC991C00B1F7FA /* Colors.swift */,
+				D3C7434D2BF0CB3C00FBB66C /* Constants */,
 				D38CCBD72BEBC41A00B1F7FA /* Info.plist */,
 				D38CCBCF2BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld */,
 			);
@@ -158,6 +171,38 @@
 				D38CCC092BED3C0900B1F7FA /* AppRankModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D38CCC1A2BF0BBC900B1F7FA /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D38CCBFA2BEBC48F00B1F7FA /* AppStoreViewController.swift */,
+				D38CCC0E2BEFCA4F00B1F7FA /* TodayViewController.swift */,
+				D38CCC032BEBD6E700B1F7FA /* AppStoreDetailViewController.swift */,
+				D38CCC102BEFCA6000B1F7FA /* GamesViewController.swift */,
+				D38CCC122BEFCA6A00B1F7FA /* ArcadeViewController.swift */,
+				D38CCC142BEFCA7700B1F7FA /* SearchViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D3C7434A2BF0C79200FBB66C /* Custom Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D38CCC052BEBDA3400B1F7FA /* AppStoreTableViewCell.swift */,
+				D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */,
+				D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */,
+			);
+			path = "Custom Cells";
+			sourceTree = "<group>";
+		};
+		D3C7434D2BF0CB3C00FBB66C /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				D38CCC072BEC991C00B1F7FA /* Colors.swift */,
+				D38CCC162BEFCB8600B1F7FA /* Images.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,14 +342,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3C743492BF0C63500FBB66C /* FreeAppsTableViewCell.swift in Sources */,
 				D38CCC042BEBD6E700B1F7FA /* AppStoreDetailViewController.swift in Sources */,
 				D38CCBC72BEBC41900B1F7FA /* AppDelegate.swift in Sources */,
+				D38CCC0F2BEFCA4F00B1F7FA /* TodayViewController.swift in Sources */,
 				D38CCBD12BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld in Sources */,
+				D38CCC172BEFCB8600B1F7FA /* Images.swift in Sources */,
+				D38CCC112BEFCA6000B1F7FA /* GamesViewController.swift in Sources */,
 				D38CCC0A2BED3C0900B1F7FA /* AppRankModel.swift in Sources */,
+				D38CCC152BEFCA7700B1F7FA /* SearchViewController.swift in Sources */,
 				D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */,
 				D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */,
 				D38CCBC92BEBC41900B1F7FA /* SceneDelegate.swift in Sources */,
+				D38CCC132BEFCA6A00B1F7FA /* ArcadeViewController.swift in Sources */,
 				D38CCC062BEBDA3400B1F7FA /* AppStoreTableViewCell.swift in Sources */,
+				D3C743472BF0C60900FBB66C /* PaidAppsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
