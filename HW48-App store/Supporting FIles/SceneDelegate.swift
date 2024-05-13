@@ -10,9 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
     
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -20,7 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let appStoreVC = AppStoreViewController() // Assuming this ViewController exists and is set up correctly.
         
         // Create a UITabBarController and add the navigation controller to it.
         let tabBarController = UITabBarController()
@@ -31,9 +28,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             createArcadeNC(),
             createSearchNC()
         ]
-        
-        // Set the rootViewController of the window to the tabBarController.
-        window.rootViewController = tabBarController
+        window.rootViewController = tabBarController // Set the rootViewController of the window to the tabBarController.
+        tabBarController.selectedIndex = 2           // Set up index to specific VC.
         
         // Set the window and make it visible.
         self.window = window
