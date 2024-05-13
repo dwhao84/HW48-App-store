@@ -14,4 +14,5 @@ struct Images {
     static let arcade: UIImage       = UIImage(systemName: "arcade.stick")!
     static let search: UIImage       = UIImage(systemName: "magnifyingglass")!
     static let defaultImage: UIImage = UIImage(systemName: "photo.fill.on.rectangle.fill")!
+    static let share: UIImage = UIImage(systemName: "square.and.arrow.up")!
 }
