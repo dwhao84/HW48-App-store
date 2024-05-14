@@ -14,6 +14,7 @@ struct Colors {
     static let white: UIColor     = UIColor.white
     static let blue: UIColor      = UIColor.systemBlue
     static let clear: UIColor     = UIColor.clear
+    static let pink: UIColor      = UIColor.systemPink
     static let CustomTitleColor: UIColor = UIColor(named: "CustomColor") ?? UIColor.white
     static let CustomBackgroundColor: UIColor = UIColor(named: "CustomBackgroundColor") ?? Colors.black
 }
