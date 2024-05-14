@@ -9,17 +9,18 @@ import UIKit
 
 class AppDetailHeadView: UIView {
     
-    static let appDetailHeadView: String = "AppDetailHeadView"
+    static let identifier: String = "AppDetailHeadView"
 
     var bannerImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = Images.defaultImage
+        imageView.image = Images.app
         imageView.layer.borderWidth = 0.2
         imageView.layer.borderColor = Colors.lightGray.cgColor
         return imageView
     } ()
     
+    // MARK: - init:
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -34,7 +35,7 @@ class AppDetailHeadView: UIView {
     }
     
     func addConstraint() {
-        bannerImageView.heightAnchor.constraint(equalTo: bannerImageView.widthAnchor, multiplier: 0.55).isActive = true
+//        bannerImageView.heightAnchor.constraint(equalTo: bannerImageView.widthAnchor, multiplier: 0.55).isActive = true
         
         self.addSubview(bannerImageView)
         bannerImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,8 +47,14 @@ class AppDetailHeadView: UIView {
             bannerImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
+    
+    // MARK: - UINib file:
+    static func nib () -> UINib {
+        return UINib(nibName: "AppDetailHeadView", bundle: nil)
+    }
 }
 
+// MARK: - Preview:
 #Preview {
     let appDetailHeadView: UIView = AppDetailHeadView()
     return appDetailHeadView
