@@ -15,6 +15,10 @@ class AppStoreViewController: UIViewController {
     var freeAppsData: AppStore?
     var paidAppsData: AppStore?
     
+    // Get the app's id from paidAppsData
+    var appId: String?
+    var app_Id_url: String?
+    
     // MARK: - UI Setup:
     var segmenteControl = {
         let segmentedControl = UISegmentedControl()
@@ -75,6 +79,8 @@ class AppStoreViewController: UIViewController {
         
         fetchFreeAppsData()
         fetchPaidAppsData()
+        
+        getURLComponents()
     }
     
     
@@ -88,7 +94,7 @@ class AppStoreViewController: UIViewController {
     
     // MARK: - Configure TableViews:
     func configFreeTableView () {
-        freeAppTableView.delegate = self
+        freeAppTableView.delegate   = self
         freeAppTableView.dataSource = self
         freeAppTableView.rowHeight = 100
         freeAppTableView.allowsSelection = true
@@ -99,7 +105,7 @@ class AppStoreViewController: UIViewController {
     }
     
     func configPaidTableView () {
-        paidAppTableView.delegate = self
+        paidAppTableView.delegate   = self
         paidAppTableView.dataSource = self
         paidAppTableView.rowHeight = 100
         paidAppTableView.allowsSelection = true
@@ -118,7 +124,6 @@ class AppStoreViewController: UIViewController {
     // MARK: - Add Constraints:
     func addConstraints () {
         view.addSubview(segmenteControl)
-        view.addSubview(freeAppTableView)
         NSLayoutConstraint.activate([
             segmenteControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
             segmenteControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:20),
@@ -126,6 +131,7 @@ class AppStoreViewController: UIViewController {
             segmenteControl.heightAnchor.constraint(equalToConstant: 30)
         ])
 
+        view.addSubview(freeAppTableView)
         NSLayoutConstraint.activate([
             freeAppTableView.topAnchor.constraint(equalTo: segmenteControl.bottomAnchor, constant: 20),
             freeAppTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -167,8 +173,36 @@ class AppStoreViewController: UIViewController {
         print("DEBUG PRINT: refreshControl Activited ")
     }
     
-    // MARK: - Fetch Data:
-    // MARK: Free Apps
+    // MARK: - Get URLComponents
+    func getURLComponents () {
+        var urlComponents = URLComponents(string: "https://itunes.apple.com/lookup")!
+        urlComponents.query = "?id\(appId ?? "Unable to get URL")&country=tw"
+        app_Id_url = "\(urlComponents.url!)"
+        print("\(app_Id_url!)")
+    }
+    
+    // MARK: - Fetch data from iTunes API:
+    func fetchiTunesData () {
+        guard let url = URL(string: app_Id_url!) else {
+            print(fatalError)
+            return
+        }
+        
+        
+        
+    }
+    
+    // MARK: - Result type:
+    enum AppStoreDataFetchError: Error {
+        case invalidURL        // URL failed
+        case requestFailed     // request failed
+        case responseFailed    // response failed
+        case jsonDecodeFailed  // json decode failed
+    }
+    
+    
+    
+    // MARK: - Fetch Free App Data:
     func fetchFreeAppsData() {
         let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
         guard let url = URL(string: baseUrl) else { return }
@@ -206,9 +240,9 @@ class AppStoreViewController: UIViewController {
         }.resume()
     }
     
-    // MARK: Paid Apps
+    // MARK: - Fetch Paid Apps:
     func fetchPaidAppsData() {
-        let baseUrl: String = " https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
+        let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
         guard let url = URL(string: baseUrl) else { return }
 
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -235,6 +269,7 @@ class AppStoreViewController: UIViewController {
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
                 DispatchQueue.main.async {
                     self?.paidAppsData = appStoreDatas
+                    self?.appId        = appStoreDatas.feed.id
                     self?.paidAppTableView.reloadData()
                 }
             } catch {
@@ -245,15 +280,14 @@ class AppStoreViewController: UIViewController {
     }
 }
 
-
 // MARK: - Extension:
 extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("\(freeAppsData?.feed.results.count ?? 1)")
-        print("\(paidAppsData?.feed.results.count ?? 1)")
         if tableView == paidAppTableView {
+            print("DEBUG PRINT: Paid App Data \(freeAppsData?.feed.results.count ?? 1)")
             return paidAppsData?.feed.results.count ?? 1
         } else {
+            print("DEBUG PRINT: Free App Data \(paidAppsData?.feed.results.count ?? 1)")
             return freeAppsData?.feed.results.count ?? 1
         }
     }
@@ -272,14 +306,15 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
             
             if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
                 cell.iconImageView.kf.setImage(with: url)
-                print("DEBUG PRINT: Kingfisher is working.")
+                print("DEBUG PRINT: paidAppTableView's Kingfisher is working.")
             } else {
                 cell.iconImageView.image = UIImage(named: "01.png")
-                print("DEBUG PRINT: Kingfisher is not working.")
+                print("DEBUG PRINT: paidAppTableView's Kingfisher is not working.")
             }
             return cell
             
         } else {
+            
             print("DEBUG PRINT: cellForRowAt -> freeAppTableView")
             
             let cell = tableView.dequeueReusableCell(withIdentifier: FreeAppsTableViewCell.identifier, for: indexPath) as! FreeAppsTableViewCell
@@ -290,10 +325,10 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
             
             if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
                 cell.iconImageView.kf.setImage(with: url)
-                print("DEBUG PRINT: Kingfisher is working.")
+                print("DEBUG PRINT: freeAppTableView's Kingfisher is working.")
             } else {
                 cell.iconImageView.image = UIImage(named: "01.png")
-                print("DEBUG PRINT: Kingfisher is not working.")
+                print("DEBUG PRINT: freeAppTableView's Kingfisher is not working.")
             }
             return cell
         }
@@ -301,6 +336,8 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
+        
+        
     }
 }
 

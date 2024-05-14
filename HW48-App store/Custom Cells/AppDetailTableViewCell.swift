@@ -170,11 +170,9 @@ class AppDetailTableViewCell: UITableViewCell {
             shareBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -15)
         ])
     }
-    
 }
 
-// MARK: - Preview:
-#Preview(traits: .fixedLayout(width: 428, height: 160), body: {
-    let cell: UITableViewCell = AppDetailTableViewCell()
-    return cell
+#Preview(traits: .fixedLayout(width: 428, height: 180), body: {
+    let appDetailTableViewCell = AppDetailTableViewCell()
+    return appDetailTableViewCell
 })
