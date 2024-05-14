@@ -90,6 +90,18 @@ class AppStoreViewController: UIViewController {
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.title = largetTitle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: allAppBtn)
+        
+        // Add appearance
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = Colors.clear
+        
+        let scrollingAppearance = UINavigationBarAppearance()
+        scrollingAppearance.configureWithTransparentBackground()
+        scrollingAppearance.backgroundColor = Colors.clear
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
     // MARK: - Configure TableViews:
