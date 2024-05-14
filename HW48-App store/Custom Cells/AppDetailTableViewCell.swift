@@ -115,7 +115,6 @@ class AppDetailTableViewCell: UITableViewCell {
         return stackView
     } ()
     
-
     
     // MARK: - init:
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -130,9 +129,13 @@ class AppDetailTableViewCell: UITableViewCell {
     func setupUI () {
         configureStackView()
         addConstraints()
+        functionBtn.addTarget(self, action: #selector(functionBtnTapped), for: .touchUpInside)
     }
     
-    
+    @objc func functionBtnTapped (_ sender: UIButton) {
+        print("functionBtnTapped")
+        
+    }
     
     func configureStackView () {
         
