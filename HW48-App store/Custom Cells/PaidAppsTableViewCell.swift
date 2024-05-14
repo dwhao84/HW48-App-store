@@ -135,6 +135,7 @@ class PaidAppsTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - prepareForReuse
     override func prepareForReuse() {
         super.prepareForReuse()
         print("DEBUG PRINT: prepareForReuse")
