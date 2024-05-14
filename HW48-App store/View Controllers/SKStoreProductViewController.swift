@@ -6,13 +6,17 @@
 //
 
 import UIKit
+import StoreKit
+
 
 class SKStoreProductViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+
+        view.backgroundColor = Colors.CustomBackgroundColor
+        
     }
     
 
