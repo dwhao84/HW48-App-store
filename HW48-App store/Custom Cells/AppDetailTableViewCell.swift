@@ -7,7 +7,20 @@
 
 import UIKit
 
+protocol AppDetailTableViewCellDelegate: AnyObject {
+    func appDetailTableViewCell(_ cell: AppDetailTableViewCell, didTapButton button: UIButton, buttonType: ButtonType)
+}
+
+enum ButtonType {
+    case shareBtn
+    case functionBtn
+}
+
 class AppDetailTableViewCell: UITableViewCell {
+
+    weak var delegate: AppDetailTableViewCellDelegate?
+    
+    static let identifier: String = "AppDetailTableViewCell"
     
     var appImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
@@ -120,10 +133,19 @@ class AppDetailTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        
+        shareBtn.addTarget(self, action: #selector(shareBtnTapped), for: .touchUpInside)
+        functionBtn.addTarget(self, action: #selector(functionBtnTapped), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - prepareForReuse
+    override func prepareForReuse() {
+         super.prepareForReuse()
+        print("prepareForReuse")
     }
     
     func setupUI () {
@@ -134,8 +156,8 @@ class AppDetailTableViewCell: UITableViewCell {
     
     @objc func functionBtnTapped (_ sender: UIButton) {
         print("functionBtnTapped")
-        
     }
+    
     
     func configureStackView () {
         
@@ -164,14 +186,23 @@ class AppDetailTableViewCell: UITableViewCell {
         self.addSubview(shareBtn)
         NSLayoutConstraint.activate([
             mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             
             shareBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
             shareBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -15)
         ])
     }
+    
+    @objc func functionsBtnTapped (_ sender: UIButton) {
+        delegate?.appDetailTableViewCell(self, didTapButton: functionBtn, buttonType: .functionBtn)        
+    }
+    
+    @objc func shareBtnTapped (_ sender: UIButton) {
+        delegate?.appDetailTableViewCell(self, didTapButton: functionBtn, buttonType: .shareBtn)
+    }
 }
 
+// MARK: - Preview:
 #Preview(traits: .fixedLayout(width: 428, height: 180), body: {
     let appDetailTableViewCell = AppDetailTableViewCell()
     return appDetailTableViewCell
