@@ -7,16 +7,15 @@
 
 import UIKit
 
-class RatingTableViewCell: UITableViewCell {
+class RatingTableViewCell: UITableViewCell, UIScrollViewDelegate {
     
     static let identifier: String = "RatingTableViewCell"
     
     // MARK: - ScrollView
     var scrollView: UIScrollView = {
         let scrollView: UIScrollView = UIScrollView()
-        scrollView.isScrollEnabled = true
-        scrollView.showsHorizontalScrollIndicator = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsHorizontalScrollIndicator = true
         return scrollView
     } ()
     
@@ -105,7 +104,7 @@ class RatingTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     } ()
-
+    
     var ageStackView = {
         let stackView: UIStackView = UIStackView()
         stackView.axis = .vertical
@@ -217,7 +216,7 @@ class RatingTableViewCell: UITableViewCell {
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    } ()    
+    } ()
     
     var englishLabel: UIButton = {
         let btn: UIButton = UIButton()
@@ -329,6 +328,9 @@ class RatingTableViewCell: UITableViewCell {
     func setupUI () {
         configureStackView()
         addConstraint()
+        
+        scrollView.isScrollEnabled = true
+        scrollView.delegate = self
     }
     
     func configureStackView () {
@@ -369,21 +371,23 @@ class RatingTableViewCell: UITableViewCell {
         self.addSubview(scrollView)
         scrollView.addSubview(mainStackView)
         NSLayoutConstraint.activate([
+            // Set scrollView constraints
+            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10)
+            // Set mainStackView constraints within scrollView
+            mainStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            mainStackView.heightAnchor.constraint(equalTo: self.heightAnchor)
         ])
-        
     }
 }
-
-// MARK: - Preview:
-#Preview(traits: .fixedLayout(width: 528, height: 100), body: {
-    let ratingTableViewCell = RatingTableViewCell()
-    return ratingTableViewCell
-})
+    // MARK: - Preview:
+    #Preview(traits: .fixedLayout(width: 528, height: 100), body: {
+        let ratingTableViewCell = RatingTableViewCell()
+        return ratingTableViewCell
+    })
