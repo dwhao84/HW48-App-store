@@ -7,17 +7,18 @@
 
 import UIKit
 import Kingfisher
+import StoreKit
 
 class AppStoreViewController: UIViewController {
     
     let largetTitle: String = "Top Charts"
-        
+    
     var freeAppsData: AppStore?
     var paidAppsData: AppStore?
     
     // Get the app's id from paidAppsData
-    var appId: String?
-    var app_Id_url: String?
+    var freeAppId: String?
+    var paidAppId: String?
     
     // MARK: - UI Setup:
     var segmenteControl = {
@@ -59,7 +60,7 @@ class AppStoreViewController: UIViewController {
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         setupUI()
     }
     
@@ -142,7 +143,7 @@ class AppStoreViewController: UIViewController {
             segmenteControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             segmenteControl.heightAnchor.constraint(equalToConstant: 30)
         ])
-
+        
         view.addSubview(freeAppTableView)
         NSLayoutConstraint.activate([
             freeAppTableView.topAnchor.constraint(equalTo: segmenteControl.bottomAnchor, constant: 20),
@@ -159,6 +160,18 @@ class AppStoreViewController: UIViewController {
             paidAppTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             paidAppTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    // MARK: - add Blue effect
+    func addBlurEffect() {
+        let bounds = self.navigationController?.navigationBar.bounds
+        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .prominent))
+        visualEffectView.frame = bounds ?? CGRect.zero
+        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.navigationController?.navigationBar.addSubview(visualEffectView)
+        
+        // Here you can add visual effects to any UIView control.
+        // Replace custom view with navigation bar in the above code to add effects to the custom view.
     }
     
     // MARK: - Add Actions:
@@ -187,18 +200,15 @@ class AppStoreViewController: UIViewController {
     
     // MARK: - Get URLComponents
     func getURLComponents () {
-        var urlComponents = URLComponents(string: "https://itunes.apple.com/lookup")!
-        urlComponents.query = "?id\(appId ?? "Unable to get URL")&country=tw"
-        app_Id_url = "\(urlComponents.url!)"
-        print("\(app_Id_url!)")
+        let urlComponents = URLComponents(string: "https://itunes.apple.com/lookup")!
+//        urlComponents.query = "?id\(paidAppId ?? "Unable to get URL")&country=tw"
+        
+        let url = urlComponents.url
+        print(url!)
     }
     
     // MARK: - Fetch data from iTunes API:
     func fetchiTunesData () {
-        guard let url = URL(string: app_Id_url!) else {
-            print(fatalError)
-            return
-        }
         
         
         
@@ -212,13 +222,11 @@ class AppStoreViewController: UIViewController {
         case jsonDecodeFailed  // json decode failed
     }
     
-    
-    
     // MARK: - Fetch Free App Data:
     func fetchFreeAppsData() {
         let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
         guard let url = URL(string: baseUrl) else { return }
-
+        
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             
             print(String(data: data!, encoding: .utf8) ?? "Invalid data")
@@ -227,12 +235,12 @@ class AppStoreViewController: UIViewController {
                 print("Error fetching data: \(error.localizedDescription)")
                 return
             }
-
+            
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                 print("Error with the response, unexpected status code: \(String(describing: response))")
                 return
             }
-
+            
             guard let data = data else {
                 print("No data Received")
                 return
@@ -256,7 +264,7 @@ class AppStoreViewController: UIViewController {
     func fetchPaidAppsData() {
         let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
         guard let url = URL(string: baseUrl) else { return }
-
+        
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             
             print(String(data: data!, encoding: .utf8) ?? "Invalid data")
@@ -265,12 +273,12 @@ class AppStoreViewController: UIViewController {
                 print("Error fetching data: \(error.localizedDescription)")
                 return
             }
-
+            
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                 print("Error with the response, unexpected status code: \(String(describing: response))")
                 return
             }
-
+            
             guard let data = data else {
                 print("No data Received")
                 return
@@ -281,7 +289,7 @@ class AppStoreViewController: UIViewController {
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
                 DispatchQueue.main.async {
                     self?.paidAppsData = appStoreDatas
-                    self?.appId        = appStoreDatas.feed.id
+                    self?.freeAppId    = appStoreDatas.feed.id
                     self?.paidAppTableView.reloadData()
                 }
             } catch {
@@ -293,7 +301,7 @@ class AppStoreViewController: UIViewController {
 }
 
 // MARK: - Extension:
-extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
+extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SKStoreProductViewControllerDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == paidAppTableView {
             print("DEBUG PRINT: Paid App Data \(freeAppsData?.feed.results.count ?? 1)")
@@ -330,6 +338,7 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
             print("DEBUG PRINT: cellForRowAt -> freeAppTableView")
             
             let cell = tableView.dequeueReusableCell(withIdentifier: FreeAppsTableViewCell.identifier, for: indexPath) as! FreeAppsTableViewCell
+            
             let appStoreIndexPath = freeAppsData?.feed.results[indexPath.row]
             cell.appNameLabel.text       = appStoreIndexPath?.name
             cell.numberLabel.text        = String(indexPath.row + 1)
@@ -347,11 +356,22 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        let selectedPaidAppId = paidAppsData?.feed.results[indexPath.row].id
+        
         print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
+        print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
         
+        let store = SKStoreProductViewController()
+        store.delegate = self
         
+        let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedPaidAppId]
+        store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
+        present(store, animated: true, completion: nil)
     }
 }
+
+
 
 #Preview {
     UINavigationController(rootViewController: AppStoreViewController())
