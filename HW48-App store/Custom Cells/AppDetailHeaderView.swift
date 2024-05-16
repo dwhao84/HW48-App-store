@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AppDetailHeadView: UIView {
+class AppDetailHeaderView: UIView {
     
     static let identifier: String = "AppDetailHeadView"
 
@@ -15,8 +15,6 @@ class AppDetailHeadView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = Images.app
-        imageView.layer.borderWidth = 0.2
-        imageView.layer.borderColor = Colors.lightGray.cgColor
         return imageView
     } ()
     
@@ -56,8 +54,8 @@ class AppDetailHeadView: UIView {
 
 // MARK: - Preview:
 #Preview {
-    let appDetailHeadView: UIView = AppDetailHeadView()
-    return appDetailHeadView
+    let appDetailHeaderView: UIView = AppDetailHeaderView()
+    return appDetailHeaderView
 }
 
 
