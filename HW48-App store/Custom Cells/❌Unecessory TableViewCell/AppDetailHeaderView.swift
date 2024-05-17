@@ -33,8 +33,6 @@ class AppDetailHeaderView: UIView {
     }
     
     func addConstraint() {
-//        bannerImageView.heightAnchor.constraint(equalTo: bannerImageView.widthAnchor, multiplier: 0.55).isActive = true
-        
         self.addSubview(bannerImageView)
         bannerImageView.translatesAutoresizingMaskIntoConstraints = false
         

@@ -21,6 +21,8 @@ struct Results: Codable {
     let releaseNotes: String
     let price: Double
     
+    
+    // 確保每個key都會被找到
     enum CodingKeys: String, CodingKey {
         case price              = "price"
         case screenshotUrls     = "screenshotUrls"
