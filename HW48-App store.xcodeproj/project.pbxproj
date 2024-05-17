@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D337034E2BF35B2C00185D48 /* AppDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D337034D2BF35B2C00185D48 /* AppDetailHeaderView.swift */; };
-		D33703512BF3842700185D48 /* AppDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33703502BF3842700185D48 /* AppDetailView.swift */; };
 		D33703552BF38CA000185D48 /* AppDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33703542BF38CA000185D48 /* AppDetailTableViewCell.swift */; };
 		D33703582BF39BB600185D48 /* RatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33703572BF39BB600185D48 /* RatingTableViewCell.swift */; };
 		D337035A2BF3B58200185D48 /* WhatIsNewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33703592BF3B58200185D48 /* WhatIsNewTableViewCell.swift */; };
@@ -55,7 +54,6 @@
 
 /* Begin PBXFileReference section */
 		D337034D2BF35B2C00185D48 /* AppDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailHeaderView.swift; sourceTree = "<group>"; };
-		D33703502BF3842700185D48 /* AppDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailView.swift; sourceTree = "<group>"; };
 		D33703542BF38CA000185D48 /* AppDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailTableViewCell.swift; sourceTree = "<group>"; };
 		D33703572BF39BB600185D48 /* RatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingTableViewCell.swift; sourceTree = "<group>"; };
 		D33703592BF3B58200185D48 /* WhatIsNewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsNewTableViewCell.swift; sourceTree = "<group>"; };
@@ -112,14 +110,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D337034F2BF383F900185D48 /* Custom Views */ = {
-			isa = PBXGroup;
-			children = (
-				D33703502BF3842700185D48 /* AppDetailView.swift */,
-			);
-			path = "Custom Views";
-			sourceTree = "<group>";
-		};
 		D33703562BF39B5700185D48 /* Main View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,8 +145,7 @@
 				D38CCBF92BEBC43900B1F7FA /* Supporting FIles */,
 				D33703562BF39B5700185D48 /* Main View Controllers */,
 				D38CCC1A2BF0BBC900B1F7FA /* View Controllers */,
-				D3C7434A2BF0C79200FBB66C /* Custom Cells (No need to use) */,
-				D337034F2BF383F900185D48 /* Custom Views */,
+				D3C7434A2BF0C79200FBB66C /* Custom Cells */,
 				D38CCC002BEBC52000B1F7FA /* Model */,
 				D3C7434D2BF0CB3C00FBB66C /* Constants */,
 				D38CCBD72BEBC41A00B1F7FA /* Info.plist */,
@@ -214,17 +203,14 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
-		D3C7434A2BF0C79200FBB66C /* Custom Cells (No need to use) */ = {
+		D3C7434A2BF0C79200FBB66C /* Custom Cells */ = {
 			isa = PBXGroup;
 			children = (
 				D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */,
 				D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */,
-				D33703542BF38CA000185D48 /* AppDetailTableViewCell.swift */,
-				D337034D2BF35B2C00185D48 /* AppDetailHeaderView.swift */,
-				D33703572BF39BB600185D48 /* RatingTableViewCell.swift */,
-				D33703592BF3B58200185D48 /* WhatIsNewTableViewCell.swift */,
+				D3DE98C52BF673210071819C /* ❌Unecessory TableViewCell */,
 			);
-			path = "Custom Cells (No need to use)";
+			path = "Custom Cells";
 			sourceTree = "<group>";
 		};
 		D3C7434D2BF0CB3C00FBB66C /* Constants */ = {
@@ -234,6 +220,17 @@
 				D3C7434E2BF0CC1500FBB66C /* ImagesData.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		D3DE98C52BF673210071819C /* ❌Unecessory TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				D33703542BF38CA000185D48 /* AppDetailTableViewCell.swift */,
+				D337034D2BF35B2C00185D48 /* AppDetailHeaderView.swift */,
+				D33703572BF39BB600185D48 /* RatingTableViewCell.swift */,
+				D33703592BF3B58200185D48 /* WhatIsNewTableViewCell.swift */,
+			);
+			path = "❌Unecessory TableViewCell";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,7 +381,6 @@
 				D38CCC152BEFCA7700B1F7FA /* SearchViewController.swift in Sources */,
 				D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */,
 				D33703552BF38CA000185D48 /* AppDetailTableViewCell.swift in Sources */,
-				D33703512BF3842700185D48 /* AppDetailView.swift in Sources */,
 				D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */,
 				D3C7434F2BF0CC1500FBB66C /* ImagesData.swift in Sources */,
 				D337034E2BF35B2C00185D48 /* AppDetailHeaderView.swift in Sources */,

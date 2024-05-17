@@ -57,7 +57,7 @@ class PaidAppsTableViewCell: UITableViewCell {
         return label
     } ()
     
-    let serviceBtn: UIButton = {
+    let priceBtn: UIButton = {
         let btn: UIButton = UIButton()
         var config = UIButton.Configuration.gray()
         config.baseForegroundColor = Colors.blue
@@ -155,8 +155,8 @@ class PaidAppsTableViewCell: UITableViewCell {
         iconImageView.widthAnchor.constraint(equalToConstant: 75).isActive = true
         iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor, multiplier: 1).isActive = true
         
-        serviceBtn.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        serviceBtn.heightAnchor.constraint(equalTo: serviceBtn.widthAnchor, multiplier: 0.45).isActive = true
+        priceBtn.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        priceBtn.heightAnchor.constraint(equalTo: priceBtn.widthAnchor, multiplier: 0.45).isActive = true
         
         
         // 照片 & 順序
@@ -174,7 +174,7 @@ class PaidAppsTableViewCell: UITableViewCell {
         //        secondStackView.backgroundColor = Colors.blue
         
         mainStackView.addArrangedSubview(secondStackView)
-        mainStackView.addArrangedSubview(serviceBtn)
+        mainStackView.addArrangedSubview(priceBtn)
     }
     
     func addConstraints() {
