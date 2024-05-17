@@ -20,6 +20,8 @@ class AppStoreViewController: UIViewController {
     var freeAppId: String?
     var paidAppId: String?
     
+    var paidAppPrice: iTunes?
+    
     // MARK: - UI Setup:
     var segmenteControl = {
         let segmentedControl = UISegmentedControl()
@@ -80,8 +82,7 @@ class AppStoreViewController: UIViewController {
         
         fetchFreeAppsData()
         fetchPaidAppsData()
-        
-        getURLComponents()
+//        fetchITunesData()
     }
     
     
@@ -162,18 +163,6 @@ class AppStoreViewController: UIViewController {
         ])
     }
     
-    // MARK: - add Blue effect
-    func addBlurEffect() {
-        let bounds = self.navigationController?.navigationBar.bounds
-        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .prominent))
-        visualEffectView.frame = bounds ?? CGRect.zero
-        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.navigationController?.navigationBar.addSubview(visualEffectView)
-        
-        // Here you can add visual effects to any UIView control.
-        // Replace custom view with navigation bar in the above code to add effects to the custom view.
-    }
-    
     // MARK: - Add Actions:
     @objc func segmentedControlValueChanged (_ sender: UISegmentedControl) {
         
@@ -197,23 +186,7 @@ class AppStoreViewController: UIViewController {
         refreshControl.endRefreshing()
         print("DEBUG PRINT: refreshControl Activited ")
     }
-    
-    // MARK: - Get URLComponents
-    func getURLComponents () {
-        let urlComponents = URLComponents(string: "https://itunes.apple.com/lookup")!
-//        urlComponents.query = "?id\(paidAppId ?? "Unable to get URL")&country=tw"
         
-        let url = urlComponents.url
-        print(url!)
-    }
-    
-    // MARK: - Fetch data from iTunes API:
-    func fetchiTunesData () {
-        
-        
-        
-    }
-    
     // MARK: - Result type:
     enum AppStoreDataFetchError: Error {
         case invalidURL        // URL failed
@@ -269,16 +242,19 @@ class AppStoreViewController: UIViewController {
             
             print(String(data: data!, encoding: .utf8) ?? "Invalid data")
             
+            // Define error:
             if let error = error {
                 print("Error fetching data: \(error.localizedDescription)")
                 return
             }
             
+            // Define httpResponse:
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                 print("Error with the response, unexpected status code: \(String(describing: response))")
                 return
             }
             
+            // Define data:
             guard let data = data else {
                 print("No data Received")
                 return
@@ -288,9 +264,56 @@ class AppStoreViewController: UIViewController {
             do {
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
                 DispatchQueue.main.async {
+                                
                     self?.paidAppsData = appStoreDatas
-                    self?.freeAppId    = appStoreDatas.feed.id
                     self?.paidAppTableView.reloadData()
+//                    self?.fetchITunesData()
+                }
+            } catch {
+                print("Error decoding data: \(error.localizedDescription)")
+                print("Full error: \(error)")
+            }
+        }.resume()
+    }
+    
+    // MARK: - Fetch iTunes data:
+    func fetchITunesData () {
+        var urlComponents = URLComponents(string: "https://itunes.apple.com/search")!
+        urlComponents.query = "lookup?id=\(paidAppId!)&country=tw"
+        let fullUrl = urlComponents.url
+        let baseUrl = fullUrl
+        
+        guard let url =  baseUrl else {
+            print("DEBUG PRINT: Unable to get baseUrl in fetch iTunes data")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            print(String(data: data!, encoding: .utf8) ?? "Invalid data")
+            
+            // Define error
+            if let error = error {
+                print("DEBUG PRINT: Error fetching iTunes data: \(error.localizedDescription)")
+                return
+            }
+            
+            // Define httpResponse
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Error with response, unexpected status code: \(String(describing: response))")
+                return
+            }
+            
+            // Define data:
+            guard let data = data else {
+                print("DEBUG PRINT: No iTunes data Received")
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            do {
+                let urlData = try decoder.decode(iTunes.self, from: data)
+                DispatchQueue.main.async {
+                    self.paidAppPrice = urlData
                 }
             } catch {
                 print("Error decoding data: \(error.localizedDescription)")
@@ -320,6 +343,7 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
             let cell = tableView.dequeueReusableCell(withIdentifier: PaidAppsTableViewCell.identifier, for: indexPath) as! PaidAppsTableViewCell
             
             let appStoreIndexPath = paidAppsData?.feed.results[indexPath.row]
+            
             cell.appNameLabel.text       = appStoreIndexPath?.name
             cell.numberLabel.text        = String(indexPath.row + 1)
             cell.appDescripionLabel.text = appStoreIndexPath?.artistName
@@ -356,18 +380,35 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        let selectedPaidAppId = paidAppsData?.feed.results[indexPath.row].id
         
-        print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
-        print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
-        
-        let store = SKStoreProductViewController()
-        store.delegate = self
-        
-        let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedPaidAppId]
-        store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
-        present(store, animated: true, completion: nil)
+        if tableView == paidAppTableView {
+            
+            let selectedPaidAppId = paidAppsData?.feed.results[indexPath.row].id
+            
+            print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
+            print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
+            
+            let store = SKStoreProductViewController()
+            store.delegate = self
+            
+            let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedPaidAppId]
+            store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
+            present(store, animated: true, completion: nil)
+            
+        } else if tableView == freeAppTableView {
+            
+            let selectedPaidAppId = freeAppsData?.feed.results[indexPath.row].id
+            
+            print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
+            print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
+            
+            let store = SKStoreProductViewController()
+            store.delegate = self
+            
+            let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedPaidAppId]
+            store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
+            present(store, animated: true, completion: nil)
+        }
     }
 }
 
