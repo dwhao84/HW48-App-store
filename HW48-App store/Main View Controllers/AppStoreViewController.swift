@@ -13,12 +13,16 @@ class AppStoreViewController: UIViewController {
     
     let largetTitle: String = "Top Charts"
     
+    private let freeAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
+    
     var freeAppsData: AppStore?
     var paidAppsData: AppStore?
     
     // Get the app's id from paidAppsData
     var freeAppId: String?
     var paidAppId: String?
+
+    var activityIndicator: UIActivityIndicatorView!
     
     var paidAppPrice: iTunes?
     
@@ -50,6 +54,10 @@ class AppStoreViewController: UIViewController {
         config.title = "All Apps"
         config.baseForegroundColor = Colors.blue
         btn.configuration = config
+        
+        btn.configurationUpdateHandler = { btn in
+            btn.alpha = btn.isHighlighted ? 0.5 : 1
+        }
         return btn
     } ()
     
@@ -62,6 +70,13 @@ class AppStoreViewController: UIViewController {
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        
+        self.freeAppTableView.addSubview(activityIndicator)
+        self.paidAppTableView.addSubview(activityIndicator)
         
         setupUI()
     }
@@ -80,9 +95,19 @@ class AppStoreViewController: UIViewController {
         configFreeTableView()
         configPaidTableView()
         
-        fetchFreeAppsData()
+        fetchFreeAppsData(url: freeAppStoreUrl) { result in
+            switch result {
+            case .success(let appStoreData):
+                self.freeAppsData = appStoreData
+                DispatchQueue.main.async {
+                    self.freeAppTableView.reloadData()
+                }
+            case .failure(let error):
+                print("Failed to fetch free apps data: \(error)")
+            }
+        }
+
         fetchPaidAppsData()
-//        fetchITunesData()
     }
     
     
@@ -133,6 +158,7 @@ class AppStoreViewController: UIViewController {
     func addTargets () {
         segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
         refreshControl.addTarget(self, action: #selector(refreshControlActivited), for: .valueChanged)
+        allAppBtn.addTarget(self, action: #selector(allAppsBtn), for: .touchUpInside)
     }
     
     // MARK: - Add Constraints:
@@ -184,7 +210,11 @@ class AppStoreViewController: UIViewController {
     
     @objc func refreshControlActivited (_ sender: Any) {
         refreshControl.endRefreshing()
-        print("DEBUG PRINT: refreshControl Activited ")
+        print("DEBUG PRINT: refreshControl Activited")
+    }
+    
+    @objc func allAppsBtn (_ sender: UIBarButtonItem) {
+        print("DEBUG PRINT: allAppsBtn")
     }
         
     // MARK: - Result type:
@@ -194,41 +224,60 @@ class AppStoreViewController: UIViewController {
         case responseFailed    // response failed
         case jsonDecodeFailed  // json decode failed
     }
+        
+    enum Result<Value, Error: Swift.Error> {
+        case success(Value)
+        case failure(Error)
+    }
+    
+    enum NetworkError: Error {
+        case wrongURL
+        case requestFailed
+        case decodeError
+        case unexpectedStatusCode
+        case noDataReceived
+    }
     
     // MARK: - Fetch Free App Data:
-    func fetchFreeAppsData() {
-        let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
-        guard let url = URL(string: baseUrl) else { return }
+    func fetchFreeAppsData(url: String, completion: @escaping (Result<AppStore, NetworkError>) -> Void) {
+        guard let url = URL(string: url) else {
+            print("Unable to get url")
+            completion(.failure(.wrongURL))
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
+        }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+            }
             
-            print(String(data: data!, encoding: .utf8) ?? "Invalid data")
-            
-            if let error = error {
-                print("Error fetching data: \(error.localizedDescription)")
+            if let _ = error {
+                completion(.failure(.requestFailed))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Error with the response, unexpected status code: \(String(describing: response))")
+                print("Unable to get response")
+                completion(.failure(.unexpectedStatusCode))
                 return
             }
             
             guard let data = data else {
-                print("No data Received")
+                print("Unable to get data")
+                completion(.failure(.noDataReceived))
                 return
             }
             
-            let decoder = JSONDecoder()
             do {
+                let decoder = JSONDecoder()
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
-                DispatchQueue.main.async {
-                    self?.freeAppsData = appStoreDatas
-                    self?.freeAppTableView.reloadData()
-                }
+                completion(.success(appStoreDatas))
             } catch {
-                print("Error decoding data: \(error.localizedDescription)")
-                print("Full error: \(error)")
+                completion(.failure(.decodeError))
             }
         }.resume()
     }
@@ -238,9 +287,19 @@ class AppStoreViewController: UIViewController {
         let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
         guard let url = URL(string: baseUrl) else { return }
         
+        // 當資料尚未讀取時，activity Indicator是轉動的
+        DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
+        }
+        
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             
             print(String(data: data!, encoding: .utf8) ?? "Invalid data")
+            
+            // 當網路連接後，activity Indicator停止轉動。
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+            }
             
             // Define error:
             if let error = error {
@@ -260,14 +319,12 @@ class AppStoreViewController: UIViewController {
                 return
             }
             
-            let decoder = JSONDecoder()
             do {
+                let decoder = JSONDecoder()
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
                 DispatchQueue.main.async {
-                                
                     self?.paidAppsData = appStoreDatas
                     self?.paidAppTableView.reloadData()
-//                    self?.fetchITunesData()
                 }
             } catch {
                 print("Error decoding data: \(error.localizedDescription)")
@@ -326,12 +383,13 @@ class AppStoreViewController: UIViewController {
 // MARK: - Extension:
 extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SKStoreProductViewControllerDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if tableView == paidAppTableView {
             print("DEBUG PRINT: Paid App Data \(freeAppsData?.feed.results.count ?? 1)")
-            return paidAppsData?.feed.results.count ?? 1
+            return paidAppsData?.feed.results.count ?? 0
         } else {
             print("DEBUG PRINT: Free App Data \(paidAppsData?.feed.results.count ?? 1)")
-            return freeAppsData?.feed.results.count ?? 1
+            return freeAppsData?.feed.results.count ?? 0
         }
     }
     
@@ -411,8 +469,6 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
         }
     }
 }
-
-
 
 #Preview {
     UINavigationController(rootViewController: AppStoreViewController())
