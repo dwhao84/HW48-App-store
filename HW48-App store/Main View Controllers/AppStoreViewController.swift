@@ -14,6 +14,7 @@ class AppStoreViewController: UIViewController {
     let largetTitle: String = "Top Charts"
     
     private let freeAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
+    private let paidAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
     
     var freeAppsData: AppStore?
     var paidAppsData: AppStore?
@@ -107,7 +108,18 @@ class AppStoreViewController: UIViewController {
             }
         }
 
-        fetchPaidAppsData()
+        fetchPaidAppsData(url: paidAppStoreUrl) { result in
+            switch result {
+            case .success(let data):
+                self.paidAppsData = data
+                DispatchQueue.main.async {
+                    self.paidAppTableView.reloadData()
+                }
+            case .failure(let error):
+                print("Failed to fetch paid apps data: \(error)")
+            }
+        }
+
     }
     
     
@@ -218,13 +230,6 @@ class AppStoreViewController: UIViewController {
     }
         
     // MARK: - Result type:
-    enum AppStoreDataFetchError: Error {
-        case invalidURL        // URL failed
-        case requestFailed     // request failed
-        case responseFailed    // response failed
-        case jsonDecodeFailed  // json decode failed
-    }
-        
     enum Result<Value, Error: Swift.Error> {
         case success(Value)
         case failure(Error)
@@ -251,6 +256,7 @@ class AppStoreViewController: UIViewController {
         }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
             }
@@ -283,9 +289,9 @@ class AppStoreViewController: UIViewController {
     }
     
     // MARK: - Fetch Paid Apps:
-    func fetchPaidAppsData() {
-        let baseUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
-        guard let url = URL(string: baseUrl) else { return }
+    func fetchPaidAppsData(url: String, completion: @escaping (Result<AppStore, NetworkError>) -> Void) {
+
+        guard let url = URL(string: paidAppStoreUrl) else { return }
         
         // 當資料尚未讀取時，activity Indicator是轉動的
         DispatchQueue.main.async {
@@ -302,33 +308,31 @@ class AppStoreViewController: UIViewController {
             }
             
             // Define error:
-            if let error = error {
-                print("Error fetching data: \(error.localizedDescription)")
+            if let _ = error {
+                completion(.failure(.requestFailed))
                 return
             }
             
             // Define httpResponse:
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Error with the response, unexpected status code: \(String(describing: response))")
-                return
-            }
+                print("Unable to get response")
+                 completion(.failure(.unexpectedStatusCode))
+                 return
+             }
             
             // Define data:
             guard let data = data else {
-                print("No data Received")
+                print("Unable to get data")
+                completion(.failure(.noDataReceived))
                 return
             }
             
             do {
                 let decoder = JSONDecoder()
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
-                DispatchQueue.main.async {
-                    self?.paidAppsData = appStoreDatas
-                    self?.paidAppTableView.reloadData()
-                }
+                completion(.success(appStoreDatas))
             } catch {
-                print("Error decoding data: \(error.localizedDescription)")
-                print("Full error: \(error)")
+                completion(.failure(.decodeError))
             }
         }.resume()
     }
@@ -366,8 +370,8 @@ class AppStoreViewController: UIViewController {
                 return
             }
             
-            let decoder = JSONDecoder()
             do {
+                let decoder = JSONDecoder()
                 let urlData = try decoder.decode(iTunes.self, from: data)
                 DispatchQueue.main.async {
                     self.paidAppPrice = urlData
