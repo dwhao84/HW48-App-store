@@ -28,8 +28,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             createArcadeNC(),
             createSearchNC()
         ]
-        window.rootViewController = tabBarController // Set the rootViewController of the window to the tabBarController.
-        tabBarController.selectedIndex = 2           // Set up index to specific VC.
+        
+        let appearance = UITabBarAppearance()
+        window.rootViewController = tabBarController  // Set the rootViewController of the window to the tabBarController.
+        tabBarController.selectedIndex = 2            // Set up index to specific VC.
+        tabBarController.tabBar.isTranslucent = true
+        tabBarController.tabBar.scrollEdgeAppearance = appearance
+        tabBarController.tabBar.standardAppearance   = appearance
         
         // Set the window and make it visible.
         self.window = window
