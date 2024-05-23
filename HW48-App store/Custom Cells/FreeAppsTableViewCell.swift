@@ -14,7 +14,7 @@ class FreeAppsTableViewCell: UITableViewCell {
     var iconImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "01.png")
+        imageView.image = Images.appIconTemplate
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
         imageView.layer.borderWidth = 0.2
