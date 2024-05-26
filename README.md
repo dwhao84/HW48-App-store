@@ -15,7 +15,6 @@
 
 ![] (https://github.com/dwhao84/HW48-App-store/tree/main/HW48-App/Supporting FIles/Assets.xcassets/Demo_1.imageset)
 
-![] (HW48-App store/Supporting FIles/Assets.xcassets/Demo_1.imageset)
 * freeAppTableView and paidAppTableView: Table views to display free and paid apps respectively.
 * allAppBtn: Button to show all apps.
 * refreshControl: Allows pull-to-refresh functionality.
