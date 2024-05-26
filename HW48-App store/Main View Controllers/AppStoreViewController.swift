@@ -477,3 +477,6 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
 #Preview {
     UINavigationController(rootViewController: AppStoreViewController())
 }
+
+
+// TEST
