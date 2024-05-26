@@ -12,6 +12,7 @@
 
 ## UI Elements
 * segmenteControl: Segmented control to switch between free and paid apps.
+![](Demo_1.png)
 * freeAppTableView and paidAppTableView: Table views to display free and paid apps respectively.
 * allAppBtn: Button to show all apps.
 * refreshControl: Allows pull-to-refresh functionality.
