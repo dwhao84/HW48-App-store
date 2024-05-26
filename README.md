@@ -13,7 +13,7 @@
 ## UI Elements
 * segmenteControl: Segmented control to switch between free and paid apps.
 
-![] (/Users/haodawei/Documents/HW48-App store/HW48-App store/Supporting FIles/Assets.xcassets/Demo_1.png)
+![] (https://github.com/dwhao84/HW48-App-store/tree/main/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo_1.imageset)
 
 * freeAppTableView and paidAppTableView: Table views to display free and paid apps respectively.
 * allAppBtn: Button to show all apps.
