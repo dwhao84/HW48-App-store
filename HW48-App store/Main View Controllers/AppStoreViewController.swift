@@ -68,6 +68,13 @@ class AppStoreViewController: UIViewController {
         return refreshControl
     } ()
     
+    var paidTableViewRefreshControl: UIRefreshControl = {
+        let refreshControl: UIRefreshControl = UIRefreshControl()
+        refreshControl.tintColor = Colors.CustomTitleColor
+        return refreshControl
+    } ()
+    
+    
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -163,14 +170,17 @@ class AppStoreViewController: UIViewController {
         paidAppTableView.separatorStyle = .singleLine
         paidAppTableView.register(PaidAppsTableViewCell.self, forCellReuseIdentifier: PaidAppsTableViewCell.identifier)
         paidAppTableView.isScrollEnabled = true
-        paidAppTableView.refreshControl = refreshControl
+        paidAppTableView.refreshControl = paidTableViewRefreshControl
     }
     
     // MARK: - Add Targets:
     func addTargets () {
         segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
-        refreshControl.addTarget(self, action: #selector(refreshControlActivited), for: .valueChanged)
+
         allAppBtn.addTarget(self, action: #selector(allAppsBtn), for: .touchUpInside)
+        
+        refreshControl.addTarget(self, action: #selector(refreshControlActivited), for: .valueChanged)
+        paidTableViewRefreshControl.addTarget(self, action: #selector(paidTableViewRefreshControlActivited), for: .valueChanged)
     }
     
     // MARK: - Add Constraints:
@@ -222,6 +232,11 @@ class AppStoreViewController: UIViewController {
     
     @objc func refreshControlActivited (_ sender: Any) {
         refreshControl.endRefreshing()
+        print("DEBUG PRINT: refreshControl Activited")
+    }
+    
+    @objc func paidTableViewRefreshControlActivited (_ sender: Any) {
+        paidTableViewRefreshControl.endRefreshing()
         print("DEBUG PRINT: refreshControl Activited")
     }
     
