@@ -62,7 +62,7 @@ class AppStoreViewController: UIViewController {
         return btn
     } ()
     
-    var refreshControl: UIRefreshControl = {
+    var freeTableViewRefreshControl: UIRefreshControl = {
         let refreshControl: UIRefreshControl = UIRefreshControl()
         refreshControl.tintColor = Colors.CustomTitleColor
         return refreshControl
@@ -159,7 +159,7 @@ class AppStoreViewController: UIViewController {
         freeAppTableView.separatorStyle = .singleLine
         freeAppTableView.register(FreeAppsTableViewCell.self, forCellReuseIdentifier: FreeAppsTableViewCell.identifier)
         freeAppTableView.isScrollEnabled = true
-        freeAppTableView.refreshControl = refreshControl
+        freeAppTableView.refreshControl = freeTableViewRefreshControl
     }
     
     func configPaidTableView () {
@@ -179,7 +179,7 @@ class AppStoreViewController: UIViewController {
 
         allAppBtn.addTarget(self, action: #selector(allAppsBtn), for: .touchUpInside)
         
-        refreshControl.addTarget(self, action: #selector(refreshControlActivited), for: .valueChanged)
+        freeTableViewRefreshControl.addTarget(self, action: #selector(freeTableViewRefreshControlActivited), for: .valueChanged)
         paidTableViewRefreshControl.addTarget(self, action: #selector(paidTableViewRefreshControlActivited), for: .valueChanged)
     }
     
@@ -230,8 +230,8 @@ class AppStoreViewController: UIViewController {
         }
     }
     
-    @objc func refreshControlActivited (_ sender: Any) {
-        refreshControl.endRefreshing()
+    @objc func freeTableViewRefreshControlActivited (_ sender: Any) {
+        freeTableViewRefreshControl.endRefreshing()
         print("DEBUG PRINT: refreshControl Activited")
     }
     
@@ -404,10 +404,10 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if tableView == paidAppTableView {
-            print("DEBUG PRINT: Paid App Data \(freeAppsData?.feed.results.count ?? 1)")
+            print("DEBUG PRINT: Paid App Data \(paidAppsData?.feed.results.count ?? 1)")
             return paidAppsData?.feed.results.count ?? 0
         } else {
-            print("DEBUG PRINT: Free App Data \(paidAppsData?.feed.results.count ?? 1)")
+            print("DEBUG PRINT: Free App Data \(freeAppsData?.feed.results.count ?? 1)")
             return freeAppsData?.feed.results.count ?? 0
         }
     }
