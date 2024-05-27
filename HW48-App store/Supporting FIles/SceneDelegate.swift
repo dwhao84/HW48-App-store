@@ -30,8 +30,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         ]
         
         let appearance = UITabBarAppearance()
-        window.rootViewController = tabBarController // Set the rootViewController of the window to the tabBarController.
-        tabBarController.selectedIndex = 2           // Set up index to specific VC.
+        window.rootViewController = tabBarController  // Set the rootViewController of the window to the tabBarController.
+        tabBarController.selectedIndex = 2            // Set up index to specific VC.
         tabBarController.selectedIndex = 2            // Set up index to specific VC.
         tabBarController.tabBar.isTranslucent = true
         tabBarController.tabBar.scrollEdgeAppearance = appearance
