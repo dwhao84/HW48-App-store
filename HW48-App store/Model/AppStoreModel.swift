@@ -52,7 +52,7 @@ struct Result: Codable {
     let artistName: String
     let id: String
     let name: String
-    let releaseDate: String
+    let releaseDate: String?
     let kind: String
     let artworkUrl100: String
     let url: String
