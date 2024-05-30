@@ -18,13 +18,10 @@ class AppStoreViewController: UIViewController {
     
     var freeAppsData: AppStore?
     var paidAppsData: AppStore?
-    
-    // Get the app's id from paidAppsData
-    var freeAppId: String?
-    var paidAppId: String?
 
     var activityIndicator: UIActivityIndicatorView!
     
+    var paidAppsId: [String]?
     var paidAppPrice: iTunes?
     
     // MARK: - UI Setup:
@@ -83,10 +80,13 @@ class AppStoreViewController: UIViewController {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         
+        
         self.freeAppTableView.addSubview(activityIndicator)
         self.paidAppTableView.addSubview(activityIndicator)
         
         setupUI()
+        
+        fetchITunesData()
     }
     
     // MARK: - Set up UI:
@@ -119,14 +119,18 @@ class AppStoreViewController: UIViewController {
             switch result {
             case .success(let data):
                 self.paidAppsData = data
+                self.paidAppsId   = data.feed.results.map { $0.id } // 取得所有的Paid App的id
+                
+                print("\(self.paidAppsId!)")
+                
                 DispatchQueue.main.async {
                     self.paidAppTableView.reloadData()
+                    self.fetchITunesData()
                 }
             case .failure(let error):
                 print("Failed to fetch paid apps data: \(error)")
             }
         }
-
     }
     
     
@@ -261,20 +265,16 @@ class AppStoreViewController: UIViewController {
     // MARK: - Fetch Free App Data:
     func fetchFreeAppsData(url: String, completion: @escaping (Result<AppStore, NetworkError>) -> Void) {
         guard let url = URL(string: url) else {
-            print("Unable to get url")
+            print("Unable to fetchFreeApps url")
             completion(.failure(.wrongURL))
             return
         }
         
-        DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
-        }
+        DispatchQueue.main.async { self.activityIndicator.startAnimating() }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             
-            DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
-            }
+            DispatchQueue.main.async { self?.activityIndicator.stopAnimating() }
             
             if let _ = error {
                 completion(.failure(.requestFailed))
@@ -296,6 +296,7 @@ class AppStoreViewController: UIViewController {
             do {
                 let decoder = JSONDecoder()
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
+                self?.freeAppsData = appStoreDatas
                 completion(.success(appStoreDatas))
             } catch {
                 completion(.failure(.decodeError))
@@ -309,9 +310,7 @@ class AppStoreViewController: UIViewController {
         guard let url = URL(string: paidAppStoreUrl) else { return }
         
         // 當資料尚未讀取時，activity Indicator是轉動的
-        DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
-        }
+        DispatchQueue.main.async { self.activityIndicator.startAnimating() }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             
@@ -330,14 +329,14 @@ class AppStoreViewController: UIViewController {
             
             // Define httpResponse:
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Unable to get response")
+                print("Unable to fetchPaidApps response")
                  completion(.failure(.unexpectedStatusCode))
                  return
              }
             
             // Define data:
             guard let data = data else {
-                print("Unable to get data")
+                print("Unable to fetchPaidApps data")
                 completion(.failure(.noDataReceived))
                 return
             }
@@ -345,6 +344,9 @@ class AppStoreViewController: UIViewController {
             do {
                 let decoder = JSONDecoder()
                 let appStoreDatas = try decoder.decode(AppStore.self, from: data)
+                self?.paidAppsId = appStoreDatas.feed.results.map { $0.id }
+                print("PRINT All the id in do catch \(String(describing: self?.paidAppsId!))")
+                
                 completion(.success(appStoreDatas))
             } catch {
                 completion(.failure(.decodeError))
@@ -353,50 +355,63 @@ class AppStoreViewController: UIViewController {
     }
     
     // MARK: - Fetch iTunes data:
-    func fetchITunesData () {
-        var urlComponents = URLComponents(string: "https://itunes.apple.com/search")!
-        urlComponents.query = "lookup?id=\(paidAppId!)&country=tw"
-        let fullUrl = urlComponents.url
-        let baseUrl = fullUrl
-        
-        guard let url =  baseUrl else {
-            print("DEBUG PRINT: Unable to get baseUrl in fetch iTunes data")
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            print(String(data: data!, encoding: .utf8) ?? "Invalid data")
-            
-            // Define error
-            if let error = error {
-                print("DEBUG PRINT: Error fetching iTunes data: \(error.localizedDescription)")
+        func fetchITunesData() {
+            guard let paidAppsId = paidAppsId, !paidAppsId.isEmpty else {
+                print("paidAppsId is nil")
                 return
             }
+
+            var urlComponents = URLComponents()
+            urlComponents.host   = "itunes.apple.com"
+            urlComponents.scheme = "https"
+            urlComponents.path   = "/lookup"
             
-            // Define httpResponse
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Error with response, unexpected status code: \(String(describing: response))")
+            // 将 paidAppsId 数组转换为逗号分隔的字符串
+            let idsString = paidAppsId.joined(separator: ",")
+            urlComponents.query = "id=\(idsString)&country=tw"
+            let appsUrl = urlComponents.url
+            print("\(appsUrl!)")
+
+            guard let url = appsUrl else {
+                print("DEBUG PRINT: Unable to get baseUrl in fetch iTunes data")
                 return
             }
-            
-            // Define data:
-            guard let data = data else {
-                print("DEBUG PRINT: No iTunes data Received")
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let urlData = try decoder.decode(iTunes.self, from: data)
-                DispatchQueue.main.async {
-                    self.paidAppPrice = urlData
+
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                print(String(data: data!, encoding: .utf8) ?? "Invalid data")
+
+                // Define error
+                if let error = error {
+                    print("DEBUG PRINT: Error fetching iTunes data: \(error.localizedDescription)")
+                    return
                 }
-            } catch {
-                print("Error decoding data: \(error.localizedDescription)")
-                print("Full error: \(error)")
-            }
-        }.resume()
-    }
+
+                // Define httpResponse
+                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                    print("Error with response, unexpected status code: \(String(describing: response))")
+                    return
+                }
+
+                // Define data:
+                guard let data = data else {
+                    print("DEBUG PRINT: No iTunes data Received")
+                    return
+                }
+
+                do {
+                    let decoder = JSONDecoder()
+                    let iTunesData = try decoder.decode(iTunes.self, from: data)
+                    DispatchQueue.main.async {
+                        self?.paidAppPrice = iTunesData
+                        
+                        print("Prices: \(String(describing: self?.paidAppPrice))")
+                    }
+                } catch {
+                    print("Error decoding data: \(error.localizedDescription)")
+                    print("Full error: \(error)")
+                }
+            }.resume()
+        }
 }
 
 // MARK: - Extension:
@@ -419,11 +434,21 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
             
             let cell = tableView.dequeueReusableCell(withIdentifier: PaidAppsTableViewCell.identifier, for: indexPath) as! PaidAppsTableViewCell
             
-            let appStoreIndexPath = paidAppsData?.feed.results[indexPath.row]
+            let appStoreIndexPath    = paidAppsData?.feed.results[indexPath.row]
+            let iTunesPriceIndexPath = paidAppPrice?.results[indexPath.row].price
             
             cell.appNameLabel.text       = appStoreIndexPath?.name
             cell.numberLabel.text        = String(indexPath.row + 1)
-            cell.appDescripionLabel.text = appStoreIndexPath?.artistName
+            
+            if let price = iTunesPriceIndexPath {
+                  let boldText = NSAttributedString(string: "NT$\(price)", attributes: [.font: UIFont.boldSystemFont(ofSize: 15)])
+                  cell.priceBtn.setAttributedTitle(boldText, for: .normal)
+              } else {
+                  let boldText = NSAttributedString(string: "Loading", attributes: [.font: UIFont.boldSystemFont(ofSize: 15)])
+                  cell.priceBtn.setAttributedTitle(boldText, for: .normal)
+              }
+            
+            cell.priceBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
             
             if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
                 cell.iconImageView.kf.setImage(with: url)
@@ -455,6 +480,7 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
             return cell
         }
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
