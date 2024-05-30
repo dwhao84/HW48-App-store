@@ -155,8 +155,8 @@ class PaidAppsTableViewCell: UITableViewCell {
         iconImageView.widthAnchor.constraint(equalToConstant: 75).isActive = true
         iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor, multiplier: 1).isActive = true
         
-        priceBtn.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        priceBtn.heightAnchor.constraint(equalTo: priceBtn.widthAnchor, multiplier: 0.45).isActive = true
+        priceBtn.widthAnchor.constraint(equalToConstant: 105).isActive = true
+        priceBtn.heightAnchor.constraint(equalTo: priceBtn.widthAnchor, multiplier: 0.35).isActive = true
         
         
         // 照片 & 順序
