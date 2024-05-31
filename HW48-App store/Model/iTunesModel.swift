@@ -18,7 +18,7 @@ struct Results: Codable {
     let artworkUrl60: String
     let artworkUrl512: String
     let supportedDevices: [String]
-    let releaseNotes: String
+    let releaseNotes: String?       // Add Optional
     let price: Double
     
     
