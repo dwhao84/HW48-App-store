@@ -12,6 +12,9 @@
 
 ## UI Elements
 * segmenteControl: Segmented control to switch between free and paid apps.
+
+![Segmented Control](Assets.xcassets / Demo Gif/HW48_AppStore_SegmentedControl_switched)
+
 * freeAppTableView and paidAppTableView: Table views to display free and paid apps respectively.
 * allAppBtn: Button to show all apps.
 * refreshControl: Allows pull-to-refresh functionality.
