@@ -12,7 +12,6 @@
 
 ## UI Elements
 * segmenteControl: Segmented control to switch between free and paid apps.
-
 <p align="center">
 <img src="https://github.com/dwhao84/HW48-App-store/blob/main/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_SegmentedControl_switched.dataset/HW48_AppStore_SegmentedControl_switched.gif" width="385" height="800"/>
 </p>
@@ -68,3 +67,5 @@
 ## Extensions
 ##### The class conforms to _UITableViewDelegate_, _UITableViewDataSource_, and _SKStoreProductViewControllerDelegate_ to handle table view operations and d displaying app details.
 
+## Library:
+* [KingFisher](https://github.com/onevcat/Kingfisher.git)
