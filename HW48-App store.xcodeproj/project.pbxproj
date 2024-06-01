@@ -48,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D32924822C0AD754002D2201 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D38CCBC32BEBC41900B1F7FA /* HW48-App store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HW48-App store.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D38CCBC62BEBC41900B1F7FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D38CCBC82BEBC41900B1F7FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +112,7 @@
 		D38CCBBA2BEBC41900B1F7FA = {
 			isa = PBXGroup;
 			children = (
+				D32924822C0AD754002D2201 /* README.md */,
 				D38CCBC52BEBC41900B1F7FA /* HW48-App store */,
 				D38CCBDF2BEBC41A00B1F7FA /* HW48-App storeTests */,
 				D38CCBE92BEBC41A00B1F7FA /* HW48-App storeUITests */,
