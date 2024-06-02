@@ -12,7 +12,8 @@
 ### 利用 segmented control 切換 Free Apps / Paid Apps 列表:
 * 先建立兩個tableView，分別為freeTableView & paidTableView。
 
-ˋˋˋ var freeAppTableView: UITableView = {
+ˋˋˋ
+    var freeAppTableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -23,7 +24,7 @@
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     } () 
-    ˋˋˋ
+    
 
 
 
