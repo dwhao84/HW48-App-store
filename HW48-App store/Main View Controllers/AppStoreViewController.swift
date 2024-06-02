@@ -265,6 +265,7 @@ class AppStoreViewController: UIViewController {
     // MARK: - Fetch Free App Data:
     func fetchFreeAppsData(url: String, completion: @escaping (Result<AppStore, NetworkError>) -> Void) {
         guard let url = URL(string: url) else {
+
             print("Unable to fetchFreeApps url")
             completion(.failure(.wrongURL))
             return
