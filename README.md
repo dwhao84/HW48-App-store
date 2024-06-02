@@ -789,7 +789,7 @@ struct Results: Codable {
         }
 ```
 
-取得App的價格資料，我們再用tableViewDataSource的<indexPath.row>去找到對應的App的價格，從我們建立的變數中<paidAppPrice?.results[indexPath.row].price>裡面去找資料。
+取得App的價格資料，我們再用tableViewDataSource的ˋindexPath.rowˋ去找到對應的App的價格，從我們建立的變數中ˋpaidAppPrice?.results[indexPath.row].priceˋ裡面去找資料。
 ```
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -855,8 +855,8 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 import StoreKit
 ```
 
-* 運用tableView's delegate裡的didSelectRowAt，當paidAppTableView的內容被選取時，建立一個常數為selectedPaidId，做為存取paidApps裡面的id值，並且將得到的id傳到SKStoreProductParameterITunesItemIdentifier裡面，就透過可以用SKStoreProductViewController顯示App的細項。
-要注意的事情是，這個SKStoreProductViewController，只能在實機測試，在Simulator(模擬器)裡是跑不出來的；下方有完整的Apple文件可以參考，還蠻好懂的！
+* 運用tableView's delegate裡的didSelectRowAt，當paidAppTableView的內容被選取時，建立一個常數為selectedPaidId，做為存取paidApps裡面的id值，並且將得到的id傳到ˋSKStoreProductParameterITunesItemIdentifierˋ裡面，就透過可以用SKStoreProductViewController顯示App的細項。
+要注意的事情是，這個ˋSKStoreProductViewControllerˋ，只能在實機測試，在Simulator(模擬器)裡是跑不出來的；下方有完整的Apple文件可以參考，還蠻好懂的！
 ```
 func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -898,7 +898,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 ### 支援Dark Mode:
 > 插入圖片
 
-用Struct的方式建立Colors的data，並用static let的方式建立CustomBackgroundColor，以便使用這個Colors.CustomBackgroundColor的方法去呈現，根據是否為Dark mode的狀態去調整背景及字體顏色。
+用Struct的方式建立Colors的data，並用static let的方式建立ˋCustomBackgroundColorˋ，以便使用這個ˋColors.CustomBackgroundColorˋ的方法去呈現，根據是否為Dark mode的狀態去調整背景及字體顏色。
 
 
 ```
