@@ -777,7 +777,7 @@ struct Results: Codable {
   print("\(appsUrl!)")
 ```
 
-建立好` URLComponents `，就可以將不同字串的陣列內容帶到， ` URLComponents` 的url裡面，由於` paidAppsId` 是一個字串的陣列，所以需要將資料加工一下，我就將陣列的內容用`joined(separator:)`的這個方法，將資料內容加上seperator，這樣就有辦法確保` URLComponents` 的內容，可以產生每個App的API網址，然後再用`URLSession.shared.dataTask`的寫法取得所有App的價格。
+建立好` URLComponents `，就可以將不同字串的陣列內容帶到， ` URLComponents` 的url裡面，由於 `paidAppsId` 是一個字串的陣列，所以需要將資料加工一下，我就將陣列的內容用 `joined(separator:)` 的這個方法，將資料內容加上seperator，這樣就有辦法確保 `URLComponents` 的內容，可以產生每個App的API網址，然後再用 `URLSession.shared.dataTask` 的寫法取得所有App的價格。
 ```
 // MARK: - Fetch iTunes data:
         func fetchITunesData() {
