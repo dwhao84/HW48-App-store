@@ -679,6 +679,7 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 1. 提高程式可讀以及更容易維護
 1. 不會有模稜兩可的狀態，只有 Success 跟 Failure 兩種狀態
 
+* `Result type` 的狀態分析:
 | Status | Result | Network Error |
 | ----------- | ----------- | ----------- |
 | Success | Get Value |              |
