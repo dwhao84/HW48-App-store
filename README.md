@@ -498,7 +498,7 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 ## 從 RSS Feed Generator API 取得 App 排行榜:
 
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/tree/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_tableView.dataset" width="385" height="800"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/4549982b09f8eeec51b3caf9233540f0961d8f74/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_tableView.dataset/HW48_App%20Store_tableView.gif" width="385" height="800"/>
 </p>
 
 這次的API是由 **RSS Feed Generator** 裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
@@ -759,6 +759,10 @@ struct Results: Codable {
 
 再來就是建立 `fetchITunesData` 的method，為了得到各項付費App的資料，
 所以我們要用組合 `URLComponents` 的寫法，透組合好的網址找到各項App的資料，我們最主要調整的內容會是 **query** 的內容，因爲參數最主要是在這邊做更動。
+
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/4549982b09f8eeec51b3caf9233540f0961d8f74/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/URLComponents%20Property.imageset/CleanShot%202024-06-02%20at%2022.35.53%402x.png" width="700" height="450"/>
+</p>
 
 ```
   var urlComponents = URLComponents()
