@@ -761,7 +761,7 @@ struct Results: Codable {
 所以我們要用組合 `URLComponents` 的寫法，透組合好的網址找到各項App的資料，我們最主要調整的內容會是 **query** 的內容，因爲參數最主要是在這邊做更動。
 
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/4549982b09f8eeec51b3caf9233540f0961d8f74/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/URLComponents%20Property.imageset/CleanShot%202024-06-02%20at%2022.35.53%402x.png" width="700" height="450"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/4549982b09f8eeec51b3caf9233540f0961d8f74/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/URLComponents%20Property.imageset/CleanShot%202024-06-02%20at%2022.35.53%402x.png" width="700" height="250"/>
 </p>
 
 ```
