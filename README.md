@@ -460,7 +460,7 @@ class PaidAppsTableViewCell: UITableViewCell {
 segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
 ```
 
-* 用 @objc func的寫法，建立segmentedControlValueChanged，再用sender.selectedSegmentIndex來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
+* 用 <@objc func>的寫法，建立segmentedControlValueChanged，再用sender.selectedSegmentIndex來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
 
 ```
 // MARK: - Add Actions:
@@ -500,6 +500,356 @@ private let paidAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v
 ```
 
 再來建議解析API的資料結構，我們可以把API網址貼到Postman裡面，去查看整個資料結構是如何建立的~
+
+下列為解析完的資料結構。
+```
+import UIKit
+
+/*
+ // Paid:
+ https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json
+ // Free:
+ //https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json
+ 
+ 因此若想在列表顯示價錢，必須用 App ID 搭配 iTunes Search API 查詢 App 的詳細資料。
+ 比方 App ID 是 1164801111，查詢詳細資料的網址如下:
+ https://itunes.apple.com/lookup?id=1164801111&country=tw
+ */
+
+struct AppStore: Codable {
+    let feed: Feed
+}
+
+struct Feed: Codable {
+    let title: String
+    let id: String
+    let author: Author
+    let links: [Link]
+    let copyright: String
+    let country: String
+    let icon: String
+    let updated: String
+    let results: [Result]
+}
+
+struct Author: Codable {
+    let name: String
+    let url: String
+}
+
+struct Link: Codable {
+    let linksSelf: String
+    
+    enum CodingKeys: String, CodingKey {
+        case linksSelf = "self"
+    }
+}
+
+struct Result: Codable {
+    let artistName: String
+    let id: String
+    let name: String
+    let releaseDate: String?
+    let kind: String
+    let artworkUrl100: String
+    let url: String
+}
+```
+
+再來，就是運用之前所學的URLSesson.shared.dataTask的方式，再將API網址用JSON Decoder的方式解析網頁資料，在之前的練習的時候，我沒用到Result type的寫法，但在這次的練習當中，我有運用到Result type的寫法，因為用了Result type的寫法，比較好抓到當網路沒辦法串接時的問題所在，可以有效知道是在哪個環節出了問題，是在Data端呢? 還是在httpResponse 出現了問題? 還是在網址的地方撰寫錯了? 都可以從Result type的寫法，清楚的知道整個網路串接的狀況。
+在這段程式中，最後會將Decode過後的appStoreDatas儲存到我設定的freeAppsData裡面，以便將儲存好的資料內容，把資料顯示在未來的tableView上面。
+
+```
+var freeAppsData: AppStore?
+```
+
+FetchFreeAppsData:
+```
+// MARK: - Fetch Free App Data:
+    func fetchFreeAppsData(url: String, completion: @escaping (Result<AppStore, NetworkError>) -> Void) {
+        guard let url = URL(string: url) else {
+            print("Unable to fetchFreeApps url")
+            completion(.failure(.wrongURL))
+            return
+        }
+        
+        DispatchQueue.main.async { self.activityIndicator.startAnimating() }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            
+            DispatchQueue.main.async { self?.activityIndicator.stopAnimating() }
+            
+            if let _ = error {
+                completion(.failure(.requestFailed))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Unable to get response")
+                completion(.failure(.unexpectedStatusCode))
+                return
+            }
+            
+            guard let data = data else {
+                print("Unable to get data")
+                completion(.failure(.noDataReceived))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let appStoreDatas = try decoder.decode(AppStore.self, from: data)
+                self?.freeAppsData = appStoreDatas
+                completion(.success(appStoreDatas))
+            } catch {
+                completion(.failure(.decodeError))
+            }
+        }.resume()
+    }
+```
+
+再來就是建立Result type時，可以用表格的方式理解，當Networking進行的時候會遇到不同的狀態，而Networking的結果，會用enum切換狀態，
+所以會有下面那段程式的寫法。
+
+
+```
+// MARK: - Result type:
+    enum Result<Value, Error: Swift.Error> {
+        case success(Value)
+        case failure(Error)
+    }
+    
+    enum NetworkError: Error {
+        case wrongURL
+        case requestFailed
+        case decodeError
+        case unexpectedStatusCode
+        case noDataReceived
+    }
+```
+
+再來是call這個function的result，放到viewDidLoad裡面去建立，當case是success的時候，則讓資料會存到freeAppsData裡面。
+```
+switch result {
+            case .success(let appStoreData):
+                self.freeAppsData = appStoreData
+```
+當case為failure時，則產生error。
+```
+fetchFreeAppsData(url: freeAppStoreUrl) { result in
+            switch result {
+            case .success(let appStoreData):
+                self.freeAppsData = appStoreData
+                DispatchQueue.main.async {
+                    self.freeAppTableView.reloadData()
+                }
+            case .failure(let error):
+                print("Failed to fetch free apps data: \(error)")
+            }
+        }
+```
+
+* 最後總結一下Result type的特性:
+1. 可以將非同步程式執行中所遇到的錯誤回傳出來
+1. 以更安全的方式處理錯誤
+1. 提高程式可讀以及更容易維護
+1. 不會有模稜兩可的狀態，只有 Success 跟 Failure 兩種狀態
+
+> Reference:
+* URLSession: 
+連結1
+連結2
+* Result type:
+
+### 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API:
+
+
+由於我要從上方fetch paid App的data中取得App id，並透過iTunes API去找到付費App的各項資料，所以要先建立一個paidAppsId，作為存取App id裡字串的陣列。
+```
+var paidAppsId: [String]?
+```
+
+再來就是，建立一個叫paidAppPrice的變數，為iTunes的型別。
+```
+var paidAppPrice: iTunes?
+```
+
+由於我先隨便套用了一個app id作為Postman測試，看看能不能從中取到app的price，看來是可以。
+
+> 插入照片連結
+
+再來就是建立iTunes的資料結構。
+```
+import UIKit
+
+struct iTunes: Codable {
+    let resultCount: Int
+    let results: [Results]
+}
+
+struct Results: Codable {
+    let screenshotUrls: [String]
+    let ipadScreenshotUrls: [String]
+    let artworkUrl60: String
+    let artworkUrl512: String
+    let supportedDevices: [String]
+    let releaseNotes: String?       // Add Optional
+    let price: Double
+    
+    
+    // 確保每個key都會被找到
+    enum CodingKeys: String, CodingKey {
+        case price              = "price"
+        case screenshotUrls     = "screenshotUrls"
+        case ipadScreenshotUrls = "ipadScreenshotUrls"
+        case artworkUrl60       = "artworkUrl60"
+        case artworkUrl512      = "artworkUrl512"
+        case supportedDevices   = "supportedDevices"
+        case releaseNotes       = "releaseNotes"
+    }
+}
+```
+
+再來就是建立fetchITunesData的method，為了得到各項付費App的資料，
+所以我們要用組合URLComponents的寫法，透組合好的網址找到各項App的資料，我們最主要調整的內容會是query的內容，因爲參數最主要是在這邊做更動。
+
+```
+  var urlComponents = URLComponents()
+  urlComponents.host   = "itunes.apple.com"
+  urlComponents.scheme = "https"
+  urlComponents.path   = "/lookup"
+  
+  // 将 paidAppsId 数组转换为逗号分隔的字符串
+  let idsString = paidAppsId.joined(separator: ",")
+  urlComponents.query = "id=\(idsString)&country=tw"
+  let appsUrl = urlComponents.url
+  print("\(appsUrl!)")
+```
+
+建立好URLComponents，就可以將不同字串的陣列內容帶到，URLComponents的url裡面，由於paidAppsId是一個字串的陣列，所以需要將資料加工一下，我就將陣列的內容用joined(separator:)的這個方法，將資料內容加上seperator，這樣就有辦法確保URLComponents的內容，可以產生每個App的API網址，然後再用URLSession.shared.dataTask的寫法取得所有App的價格。
+```
+// MARK: - Fetch iTunes data:
+        func fetchITunesData() {
+            guard let paidAppsId = paidAppsId, !paidAppsId.isEmpty else {
+                print("paidAppsId is nil")
+                return
+            }
+
+            var urlComponents = URLComponents()
+            urlComponents.host   = "itunes.apple.com"
+            urlComponents.scheme = "https"
+            urlComponents.path   = "/lookup"
+            
+            // 将 paidAppsId 数组转换为逗号分隔的字符串
+            let idsString = paidAppsId.joined(separator: ",")
+            urlComponents.query = "id=\(idsString)&country=tw"
+            let appsUrl = urlComponents.url
+            print("\(appsUrl!)")
+
+            guard let url = appsUrl else {
+                print("DEBUG PRINT: Unable to get baseUrl in fetch iTunes data")
+                return
+            }
+
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                print(String(data: data!, encoding: .utf8) ?? "Invalid data")
+
+                // Define error
+                if let error = error {
+                    print("DEBUG PRINT: Error fetching iTunes data: \(error.localizedDescription)")
+                    return
+                }
+
+                // Define httpResponse
+                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                    print("Error with response, unexpected status code: \(String(describing: response))")
+                    return
+                }
+
+                // Define data:
+                guard let data = data else {
+                    print("DEBUG PRINT: No iTunes data Received")
+                    return
+                }
+
+                do {
+                    let decoder = JSONDecoder()
+                    let iTunesData = try decoder.decode(iTunes.self, from: data)
+                    DispatchQueue.main.async {
+                        self?.paidAppPrice = iTunesData
+                        
+                        print("Prices: \(String(describing: self?.paidAppPrice))")
+                    }
+                } catch {
+                    print("Error decoding data: \(error.localizedDescription)")
+                    print("Full error: \(error)")
+                }
+            }.resume()
+        }
+```
+
+取得App的價格資料，我們再用tableViewDataSource的<indexPath.row>去找到對應的App的價格，從我們建立的變數中<paidAppPrice?.results[indexPath.row].price>裡面去找資料。
+```
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if tableView ==  paidAppTableView {
+            print("DEBUG PRINT: cellForRowAt -> paidAppTableView")
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: PaidAppsTableViewCell.identifier, for: indexPath) as! PaidAppsTableViewCell
+            
+            let appStoreIndexPath    = paidAppsData?.feed.results[indexPath.row]
+            let iTunesPriceIndexPath = paidAppPrice?.results[indexPath.row].price
+            
+            cell.appNameLabel.text       = appStoreIndexPath?.name
+            cell.numberLabel.text        = String(indexPath.row + 1)
+            
+            if let price = iTunesPriceIndexPath {
+                  let boldText = NSAttributedString(string: "NT$\(price)", attributes: [.font: UIFont.boldSystemFont(ofSize: 15)])
+                  cell.priceBtn.setAttributedTitle(boldText, for: .normal)
+              } else {
+                  let boldText = NSAttributedString(string: "Loading", attributes: [.font: UIFont.boldSystemFont(ofSize: 15)])
+                  cell.priceBtn.setAttributedTitle(boldText, for: .normal)
+              }
+            
+            cell.priceBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+            
+            if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
+                cell.iconImageView.kf.setImage(with: url)
+                print("DEBUG PRINT: paidAppTableView's Kingfisher is working.")
+            } else {
+                cell.iconImageView.image = UIImage(named: "01.png")
+                print("DEBUG PRINT: paidAppTableView's Kingfisher is not working.")
+            }
+            return cell
+            
+        } else {
+            
+            print("DEBUG PRINT: cellForRowAt -> freeAppTableView")
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: FreeAppsTableViewCell.identifier, for: indexPath) as! FreeAppsTableViewCell
+            
+            let appStoreIndexPath = freeAppsData?.feed.results[indexPath.row]
+            cell.appNameLabel.text       = appStoreIndexPath?.name
+            cell.numberLabel.text        = String(indexPath.row + 1)
+            cell.appDescripionLabel.text = appStoreIndexPath?.artistName
+            
+            if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
+                cell.iconImageView.kf.setImage(with: url)
+                print("DEBUG PRINT: freeAppTableView's Kingfisher is working.")
+            } else {
+                cell.iconImageView.image = UIImage(named: "01.png")
+                print("DEBUG PRINT: freeAppTableView's Kingfisher is not working.")
+            }
+            return cell
+        }
+    }
+```
+
+> Reference:
+* URLComponents:
+
+
+
 
 ### Library:
 * [KingFisher](https://github.com/onevcat/Kingfisher.git)
