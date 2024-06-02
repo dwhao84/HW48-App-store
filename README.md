@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/AppStore_Banner.imageset/AppStore_Banner.jpg" width="700" height="360"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/AppStore_Banner.imageset/AppStore_Banner.jpg" width="700" height="450"/>
 </p>
 #  HW#48 - App Store 
 
@@ -503,7 +503,7 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 這次的API是由RSS Feed Generator裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
 
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/RSS%20Builder.imageset/CleanShot%202024-06-02%20at%2000.00.07%402x.png" width="3216" height="900"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/RSS%20Builder.imageset/CleanShot%202024-06-02%20at%2000.00.07%402x.png" width="700" height="450"/>
 </p>
 
 [RSS Feed Generator](https://medium.com/r?url=https%3A%2F%2Frss.applemarketingtools.com%2F)
@@ -517,10 +517,10 @@ private let paidAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v
 
 再來建議解析API的資料結構，我們可以把API網址貼到Postman裡面，去查看整個資料結構是如何建立的~
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_FreeApp.imageset/CleanShot%202024-06-02%20at%2012.17.16%402x.png" width="700" height="360"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_FreeApp.imageset/CleanShot%202024-06-02%20at%2012.17.16%402x.png" width="700" height="450"/>
 </p>
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_PaidApp.imageset/CleanShot%202024-06-02%20at%2012.14.57%402x.png" width="700" height="360"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_PaidApp.imageset/CleanShot%202024-06-02%20at%2012.14.57%402x.png" width="700" height="450"/>
 </p>
 
 下列為解析完的資料結構。
@@ -710,7 +710,7 @@ var paidAppPrice: iTunes?
 由於我先隨便套用了一個app id作為Postman測試，看看能不能從中取到app的price，看來是可以。
 
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_iTunes.imageset/CleanShot%202024-06-02%20at%2018.39.54%402x.png" width="3216" height="2090"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_iTunes.imageset/CleanShot%202024-06-02%20at%2018.39.54%402x.png" width="700" height="450"/>
 </p>
 
 再來就是建立iTunes的資料結構。
@@ -955,6 +955,9 @@ struct Colors {
 }
 ```
 
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/57b5f0f6265633d50ea13dabc57aa0cf68c88456/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Setup%20Dark%20Mode.imageset/CleanShot%202024-06-01%20at%2019.57.11%402x.png" width="700" height="450"/>
+</p>
 
 
 > Reference:
