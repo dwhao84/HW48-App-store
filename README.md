@@ -14,6 +14,7 @@
 <img src="https://github.com/dwhao84/HW48-App-store/blob/main/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_SegmentedControl_switched.dataset/HW48_AppStore_SegmentedControl_switched.gif" width="385" height="800"/>
 </p>
 
+
 * 先建立兩個tableView，分別為freeTableView & paidTableView。
 
 ```
@@ -490,6 +491,10 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 
 ## 從 RSS Feed Generator API 取得 App 排行榜:
 
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/tree/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_tableView.dataset" width="385" height="800"/>
+</p>
+
 這次的API是由RSS Feed Generator裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
 
 [RSS Feed Generator](https://medium.com/r?url=https%3A%2F%2Frss.applemarketingtools.com%2F)
@@ -666,6 +671,9 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 
 ## 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API:
 
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_Show%20paidApp%20price.dataset/HW48_App%20Store_Show%20paidApp%20price.gif" width="385" height="800"/>
+</p>
 
 由於我要從上方fetch paid App的data中取得App id，並透過iTunes API去找到付費App的各項資料，所以要先建立一個paidAppsId，作為存取App id裡字串的陣列。
 ```
@@ -850,12 +858,16 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 > Reference:
 * URLComponents:
-> 1. [使用 baseURL，URLComponents & URLQueryItem 產生URL](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/使用-baseurl-urlcomponents-urlqueryitem-產生-url-1e4539a33a89) 
-> 1. [URLComponents](https://developer.apple.com/documentation/foundation/urlcomponents?source=post_page-----1e4539a33a89--------------------------------)
-> 1. [joined(separator:)](https://developer.apple.com/documentation/swift/array/joined(separator:)-7uber)
+1. [使用 baseURL，URLComponents & URLQueryItem 產生URL](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/使用-baseurl-urlcomponents-urlqueryitem-產生-url-1e4539a33a89) 
+1. [URLComponents](https://developer.apple.com/documentation/foundation/urlcomponents?source=post_page-----1e4539a33a89--------------------------------)
+1. [joined(separator:)](https://developer.apple.com/documentation/swift/array/joined(separator:)-7uber)
 
 
 ## 利用 SKStoreProductViewController 顯示 App 的購買頁面:
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_Show%20StoreKit.dataset/HW48_Show%20StoreKit.gif" width="385" height="800"/>
+</p>
+
 * Import StoreKit
 ```
 import StoreKit
@@ -899,14 +911,15 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
 > Reference:
 * Offering media for sale in your app: 
-> [Offering media for sale in your app](https://developer.apple.com/documentation/storekit/offering_media_for_sale_in_your_app)
+[Offering media for sale in your app](https://developer.apple.com/documentation/storekit/offering_media_for_sale_in_your_app)
 
 
 ## 支援Dark Mode:
-> 插入圖片
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_Support%20DarkMode.dataset/HW48_AppStore_Support%20DarkMode.gif" width="385" height="800"/>
+</p>
 
 用Struct的方式建立Colors的data，並用static let的方式建立ˋCustomBackgroundColorˋ，以便使用這個ˋColors.CustomBackgroundColorˋ的方法去呈現，根據是否為Dark mode的狀態去調整背景及字體顏色。
-
 
 ```
 import UIKit
@@ -919,8 +932,8 @@ struct Colors {
 
 > Reference:
 * Supporting Dark Mode in Your Interface
-> [Supporting Dark Mode in Your Interface](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface)
-> [How do I easily support light and dark mode with a custom color used in my app?](https://stackoverflow.com/questions/56487679/how-do-i-easily-support-light-and-dark-mode-with-a-custom-color-used-in-my-app)
+[Supporting Dark Mode in Your Interface](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface)
+[How do I easily support light and dark mode with a custom color used in my app?](https://stackoverflow.com/questions/56487679/how-do-i-easily-support-light-and-dark-mode-with-a-custom-color-used-in-my-app)
 
 ### Library:
 * [KingFisher](https://github.com/onevcat/Kingfisher.git)
