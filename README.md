@@ -1,6 +1,11 @@
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/AppStore_Banner.imageset/AppStore_Banner.jpg" width="1024" height="576"/>
+</p>
 #  HW#48 - App Store 
 
 這次的練習，主要是練習如何串接App store的API，顯示App store榜上25個熱門的Apps，再利用Segmented Control切換付費版以及免費版的內容。
+
+[#6 App Store 的 Free Apps / Paid Apps 排行榜](https://medium.com/彼得潘的真實-ios-app-畫面功能復刻/6-app-store-的-free-apps-paid-apps-排行榜-87678082fa80)
 
 ## 功能和畫面需求:
 * 利用 segmented control 切換 Free Apps / Paid Apps 列表
@@ -497,6 +502,10 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 
 這次的API是由RSS Feed Generator裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
 
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/RSS%20Builder.imageset/CleanShot%202024-06-02%20at%2000.00.07%402x.png" width="3216" height="1090"/>
+</p>
+
 [RSS Feed Generator](https://medium.com/r?url=https%3A%2F%2Frss.applemarketingtools.com%2F)
 
 這次主要是使用App Store排名前25個App的內容，做為練習，所以首先分別建立兩個不同的API網址，在AppViewController裡面。
@@ -665,9 +674,14 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 
 > Reference:
 * URLSession: 
-> 連結1
-> 連結2
+
+[模仿 Apple 官方範例串接 JSON API，定義 function 型別的 completion 參數 & 使用 Result type](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/模仿-apple-官方範例串接-json-api-定義-function-型別的-completion-參數-使用-result-type-9b058c77df5d)
+
+
 * Result type:
+
+[成功和失敗二擇一的 Result type](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/成功和失敗二擇一的-result-type-e234c6fccc9c)
+[非黑即白的 Result type](https://hackmd.io/@leoho0722/r1ICGuQxo)
 
 ## 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API:
 
@@ -675,7 +689,9 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 <img src="https://github.com/dwhao84/HW48-App-store/blob/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_Show%20paidApp%20price.dataset/HW48_App%20Store_Show%20paidApp%20price.gif" width="385" height="800"/>
 </p>
 
-由於我要從上方fetch paid App的data中取得App id，並透過iTunes API去找到付費App的各項資料，所以要先建立一個paidAppsId，作為存取App id裡字串的陣列。
+---
+
+由於我要從上方 ˋfetch paid Appˋ 的data中取得 ˋApp idˋ ，並透過iTunes API去找到付費App的各項資料，所以要先建立一個 ˋpaidAppsIdˋ ，作為存取App id裡字串的陣列。
 ```
 var paidAppsId: [String]?
 ```
@@ -911,6 +927,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
 > Reference:
 * Offering media for sale in your app: 
+
 [Offering media for sale in your app](https://developer.apple.com/documentation/storekit/offering_media_for_sale_in_your_app)
 
 
@@ -929,6 +946,8 @@ struct Colors {
     static let CustomBackgroundColor: UIColor = UIColor(named: "CustomBackgroundColor") ?? Colors.black
 }
 ```
+
+
 
 > Reference:
 * Supporting Dark Mode in Your Interface
