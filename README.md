@@ -449,7 +449,7 @@ class PaidAppsTableViewCell: UITableViewCell {
 })
 ```
 
-* 利用Closure的寫法，建立 `segmentedControl`。
+* 利用 **Closure** 的寫法，建立 `segmentedControl`。
 ```
 // MARK: - UI Setup:
     var segmenteControl = {
@@ -490,7 +490,7 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
     }
 ```
 
-> Reference:
+> ### Reference:
 
 [利用多個 container view切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
 
@@ -516,7 +516,7 @@ private let freeAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v
 private let paidAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
 ```
 
-再來建議解析API的資料結構，我們可以把API網址貼到Postman裡面，去查看整個資料結構是如何建立的~
+再來建議解析API的資料結構，我們可以把API網址貼到Postman裡面，去查看整個資料結構是如何建立的。
 <p align="center">
 <img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_FreeApp.imageset/CleanShot%202024-06-02%20at%2012.17.16%402x.png" width="700" height="450"/>
 </p>
@@ -579,8 +579,8 @@ struct Result: Codable {
 }
 ```
 
-再來，就是運用之前所學的 `URLSesson.shared.dataTask` 的方式，再將API網址用JSON
-Decoder的方式解析網頁資料，在之前的練習的時候，我沒用到 `Result type` 的寫法，但在這次的練習當中，
+再來，就是運用之前所學的 `URLSesson.shared.dataTask` 的方式，再將API網址用 **JSON
+Decoder** 的方式解析網頁資料，在之前的練習的時候，我沒用到 `Result type` 的寫法，但在這次的練習當中，
 我有運用到 `Result type` 的寫法，因為用了 `Result type` 的寫法，比較好抓到當網路沒辦法串接時的問題所在，可以有效知道是在哪個環節出了問題，是在Data端呢? 還是在 `httpResponse` 出現了問題? 還是在網址的地方撰寫錯了? 都可以從 `Result type` 的寫法，
 清楚的知道整個網路串接的狀況。在這段程式中，最後會將Decode過後的 `appStoreDatas` 儲存到我設定的 `freeAppsData` 裡面，以便將儲存好的資料內容，把資料顯示在未來的tableView上面。
 
@@ -633,7 +633,7 @@ FetchFreeAppsData:
     }
 ```
 
-再來就是建立 `Result type` 時，可以用表格的方式理解，當Networking進行的時候會遇到不同的狀態，而Networking的結果，會用 `enum` 切換狀態，
+再來就是建立 `Result type` 時，可以用表格的方式理解，當 **Networking** 進行的時候會遇到不同的狀態，而 **Networking** 的結果，會用 `enum` 切換狀態，
 所以會有下面那段程式的寫法。
 
 ```
@@ -679,7 +679,7 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 1. 提高程式可讀以及更容易維護
 1. 不會有模稜兩可的狀態，只有 Success 跟 Failure 兩種狀態
 
-> Reference:
+> ### Reference:
 * URLSession: 
 
 [模仿 Apple 官方範例串接 JSON API，定義 function 型別的 completion 參數 & 使用 Result type](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/模仿-apple-官方範例串接-json-api-定義-function-型別的-completion-參數-使用-result-type-9b058c77df5d)
@@ -747,7 +747,7 @@ struct Results: Codable {
 ```
 
 再來就是建立 `fetchITunesData` 的method，為了得到各項付費App的資料，
-所以我們要用組合 `URLComponents` 的寫法，透組合好的網址找到各項App的資料，我們最主要調整的內容會是query的內容，因爲參數最主要是在這邊做更動。
+所以我們要用組合 `URLComponents` 的寫法，透組合好的網址找到各項App的資料，我們最主要調整的內容會是 **query** 的內容，因爲參數最主要是在這邊做更動。
 
 ```
   var urlComponents = URLComponents()
@@ -881,7 +881,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
     }
 ```
 
-> Reference:
+> ### Reference:
 * URLComponents:
 1. [使用 baseURL，URLComponents & URLQueryItem 產生URL](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/使用-baseurl-urlcomponents-urlqueryitem-產生-url-1e4539a33a89) 
 1. [URLComponents](https://developer.apple.com/documentation/foundation/urlcomponents?source=post_page-----1e4539a33a89--------------------------------)
@@ -934,7 +934,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 ```
 
-> ##### Reference:
+> ### Reference:
 * Offering media for sale in your app: 
 
 [Offering media for sale in your app](https://developer.apple.com/documentation/storekit/offering_media_for_sale_in_your_app)
@@ -945,7 +945,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 <img src="https://github.com/dwhao84/HW48-App-store/blob/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_Support%20DarkMode.dataset/HW48_AppStore_Support%20DarkMode.gif" width="385" height="800"/>
 </p>
 
-用Struct的方式建立Colors的data，並用 `static let` 的方式建立 `CustomBackgroundColor` ，以便使用這個 `Colors.CustomBackgroundColor` 的方法去呈現，根據是否為Dark mode的狀態去調整背景及字體顏色。
+用Struct的方式建立Colors的data，並用 `static let` 的方式建立 `CustomBackgroundColor` ，以便使用這個 `Colors.CustomBackgroundColor` 的方法去呈現，根據是否為 **Dark mode** 的狀態去調整背景及字體顏色。
 
 ```
 import UIKit
@@ -961,7 +961,7 @@ struct Colors {
 </p>
 
 
-> ## Reference:
+> ### Reference:
 * Supporting Dark Mode in Your Interface
 
 [Supporting Dark Mode in Your Interface](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface)
