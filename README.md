@@ -789,7 +789,7 @@ struct Results: Codable {
         }
 ```
 
-取得App的價格資料，我們再用tableViewDataSource的ˋindexPath.rowˋ去找到對應的App的價格，從我們建立的變數中ˋpaidAppPrice?.results[indexPath.row].priceˋ裡面去找資料。
+取得App的價格資料，我們再用tableViewDataSource的ˋindexPath.rowˋ去找到對應的App的價格，從我們建立的變數中 ˋpaidAppPrice?.results[indexPath.row].priceˋ 裡面去找資料。
 ```
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -848,7 +848,8 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 > Reference:
 * URLComponents:
- 
+
+###
 ### 利用 SKStoreProductViewController 顯示 App 的購買頁面:
 * Import StoreKit
 ```
@@ -895,6 +896,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 * Offering media for sale in your app: 
 > 連結1
 
+###
 ### 支援Dark Mode:
 > 插入圖片
 
