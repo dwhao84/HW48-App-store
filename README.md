@@ -961,7 +961,7 @@ struct Colors {
 </p>
 
 
-> ##### Reference:
+> ## Reference:
 * Supporting Dark Mode in Your Interface
 
 [Supporting Dark Mode in Your Interface](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface)
