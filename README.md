@@ -21,7 +21,7 @@
 </p>
 
 
-* 先建立兩個tableView，分別為`freeTableView` & `paidTableView`。
+* 先建立兩個tableView，分別為 `freeTableView` & `paidTableView`。
 
 ```
      var freeAppTableView: UITableView = {
@@ -633,7 +633,7 @@ FetchFreeAppsData:
     }
 ```
 
-再來就是建立 `Result type` 時，可以用表格的方式理解，當Networking進行的時候會遇到不同的狀態，而Networking的結果，會用enum切換狀態，
+再來就是建立 `Result type` 時，可以用表格的方式理解，當Networking進行的時候會遇到不同的狀態，而Networking的結果，會用 `enum` 切換狀態，
 所以會有下面那段程式的寫法。
 
 ```
@@ -893,7 +893,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 <img src="https://github.com/dwhao84/HW48-App-store/blob/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_Show%20StoreKit.dataset/HW48_Show%20StoreKit.gif" width="385" height="800"/>
 </p>
 
-* Import StoreKit
+* Import `StoreKit`
 ```
 import StoreKit
 ```
@@ -934,7 +934,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 ```
 
-> Reference:
+> ##### Reference:
 * Offering media for sale in your app: 
 
 [Offering media for sale in your app](https://developer.apple.com/documentation/storekit/offering_media_for_sale_in_your_app)
@@ -961,7 +961,7 @@ struct Colors {
 </p>
 
 
-> Reference:
+> ##### Reference:
 * Supporting Dark Mode in Your Interface
 
 [Supporting Dark Mode in Your Interface](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface)
