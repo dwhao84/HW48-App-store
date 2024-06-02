@@ -162,16 +162,13 @@ class FreeAppsTableViewCell: UITableViewCell {
         // 照片 & 順序
         imageContentStackView.addArrangedSubview(iconImageView)
         imageContentStackView.addArrangedSubview(numberLabel)
-//        imageContentStackView.backgroundColor = Colors.blue
         
         // App名稱 & App產品說明
         contentStackView.addArrangedSubview(appNameLabel)
         contentStackView.addArrangedSubview(appDescripionLabel)
-//        contentStackView.backgroundColor = Colors.blue
         
         secondStackView.addArrangedSubview(imageContentStackView)
         secondStackView.addArrangedSubview(contentStackView)
-//        secondStackView.backgroundColor = Colors.blue
         
         mainStackView.addArrangedSubview(secondStackView)
         mainStackView.addArrangedSubview(serviceBtn)
