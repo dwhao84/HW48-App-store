@@ -3,7 +3,7 @@
 </p>
 #  HW#48 - App Store 
 
-這次的練習，主要是練習如何串接App store的API，顯示App store榜上25個熱門的Apps，再利用Segmented Control切換付費版以及免費版的內容。
+這次的練習，主要是練習如何串接App store的API，顯示App store榜上25個熱門的Apps，再利用`Segmented Control`切換付費版以及免費版的內容。
 
 [#6 App Store 的 Free Apps / Paid Apps 排行榜](https://medium.com/彼得潘的真實-ios-app-畫面功能復刻/6-app-store-的-free-apps-paid-apps-排行榜-87678082fa80)
 
@@ -448,7 +448,7 @@ class PaidAppsTableViewCell: UITableViewCell {
 })
 ```
 
-* 利用Closure的寫法，建立 segmentedControl。
+* 利用Closure的寫法，建立 `segmentedControl`。
 ```
 // MARK: - UI Setup:
     var segmenteControl = {
@@ -461,12 +461,12 @@ class PaidAppsTableViewCell: UITableViewCell {
     } ()
 ```
 
-* segmentedControl 加上addTarget ，以確保segmentedControl有連上segmentedControlValueChanged的method。
+* `segmentedControl` 加上addTarget ，以確保`segmentedControl`有連上`segmentedControlValueChanged`的method。
 ```
 segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
 ```
 
-* 用 @objc func的寫法，建立segmentedControlValueChanged，再用sender.selectedSegmentIndex來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
+* 用 @objc func的寫法，建立`segmentedControlValueChanged`，再用`sender.selectedSegmentIndex`來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
 
 ```
 // MARK: - Add Actions:
@@ -573,8 +573,8 @@ struct Result: Codable {
 }
 ```
 
-再來，就是運用之前所學的URLSesson.shared.dataTask的方式，再將API網址用JSON Decoder的方式解析網頁資料，在之前的練習的時候，我沒用到Result type的寫法，但在這次的練習當中，我有運用到Result type的寫法，因為用了Result type的寫法，比較好抓到當網路沒辦法串接時的問題所在，可以有效知道是在哪個環節出了問題，是在Data端呢? 還是在httpResponse 出現了問題? 還是在網址的地方撰寫錯了? 都可以從Result type的寫法，清楚的知道整個網路串接的狀況。
-在這段程式中，最後會將Decode過後的appStoreDatas儲存到我設定的freeAppsData裡面，以便將儲存好的資料內容，把資料顯示在未來的tableView上面。
+再來，就是運用之前所學的`URLSesson.shared.dataTask`的方式，再將API網址用JSON Decoder的方式解析網頁資料，在之前的練習的時候，我沒用到`Result type`的寫法，但在這次的練習當中，我有運用到`Result type`的寫法，因為用了`Result type`的寫法，比較好抓到當網路沒辦法串接時的問題所在，可以有效知道是在哪個環節出了問題，是在Data端呢? 還是在httpResponse 出現了問題? 還是在網址的地方撰寫錯了? 都可以從`Result type`的寫法，清楚的知道整個網路串接的狀況。
+在這段程式中，最後會將Decode過後的`appStoreDatas`儲存到我設定的`freeAppsData`裡面，以便將儲存好的資料內容，把資料顯示在未來的tableView上面。
 
 ```
 var freeAppsData: AppStore?
@@ -645,7 +645,7 @@ FetchFreeAppsData:
     }
 ```
 
-再來是call這個function的result，放到viewDidLoad裡面去建立，當case是success的時候，則讓資料會存到freeAppsData裡面。
+再來是call這個function的result，放到viewDidLoad裡面去建立，當case是success的時候，則讓資料會存到`freeAppsData`裡面。
 ```
 switch result {
             case .success(let appStoreData):
@@ -666,7 +666,7 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
         }
 ```
 
-* 最後總結一下Result type的特性:
+* 最後總結一下`Result type`的特性:
 1. 可以將非同步程式執行中所遇到的錯誤回傳出來
 1. 以更安全的方式處理錯誤
 1. 提高程式可讀以及更容易維護
@@ -691,12 +691,12 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 
 ---
 
-由於我要從上方 ˋfetch paid Appˋ 的data中取得 ˋApp idˋ ，並透過iTunes API去找到付費App的各項資料，所以要先建立一個 ˋpaidAppsIdˋ ，作為存取App id裡字串的陣列。
+由於我要從上方 `fetch paid App` 的data中取得App id ，並透過iTunes API去找到付費App的各項資料，所以要先建立一個 `paidAppsId` ，作為存取App id裡字串的陣列。
 ```
 var paidAppsId: [String]?
 ```
 
-再來就是，建立一個叫paidAppPrice的變數，為iTunes的型別。
+再來就是，建立一個叫`paidAppPrice`的變數，為iTunes的型別。
 ```
 var paidAppPrice: iTunes?
 ```
@@ -753,7 +753,7 @@ struct Results: Codable {
   print("\(appsUrl!)")
 ```
 
-建立好URLComponents，就可以將不同字串的陣列內容帶到，URLComponents的url裡面，由於paidAppsId是一個字串的陣列，所以需要將資料加工一下，我就將陣列的內容用joined(separator:)的這個方法，將資料內容加上seperator，這樣就有辦法確保URLComponents的內容，可以產生每個App的API網址，然後再用URLSession.shared.dataTask的寫法取得所有App的價格。
+建立好URLComponents，就可以將不同字串的陣列內容帶到，URLComponents的url裡面，由於paidAppsId是一個字串的陣列，所以需要將資料加工一下，我就將陣列的內容用`joined(separator:)`的這個方法，將資料內容加上seperator，這樣就有辦法確保URLComponents的內容，可以產生每個App的API網址，然後再用`URLSession.shared.dataTask`的寫法取得所有App的價格。
 ```
 // MARK: - Fetch iTunes data:
         func fetchITunesData() {
@@ -815,7 +815,7 @@ struct Results: Codable {
         }
 ```
 
-取得App的價格資料，我們再用tableViewDataSource的ˋindexPath.rowˋ去找到對應的App的價格，從我們建立的變數中 ˋpaidAppPrice?.results[indexPath.row].priceˋ 裡面去找資料。
+取得App的價格資料，我們再用tableViewDataSource的`indexPath.row`去找到對應的App的價格，從我們建立的變數中 `paidAppPrice?.results[indexPath.row].price` 裡面去找資料。
 ```
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -889,8 +889,8 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 import StoreKit
 ```
 
-* 運用tableView's delegate裡的didSelectRowAt，當paidAppTableView的內容被選取時，建立一個常數為selectedPaidId，做為存取paidApps裡面的id值，並且將得到的id傳到ˋSKStoreProductParameterITunesItemIdentifierˋ裡面，就透過可以用SKStoreProductViewController顯示App的細項。
-要注意的事情是，這個ˋSKStoreProductViewControllerˋ，只能在實機測試，在Simulator(模擬器)裡是跑不出來的；下方有完整的Apple文件可以參考，還蠻好懂的！
+* 運用tableView's delegate裡的`didSelectRowAt`，當paidAppTableView的內容被選取時，建立一個常數為`selectedPaidId`，做為存取paidApps裡面的id值，並且將得到的id傳到`SKStoreProductParameterITunesItemIdentifier`裡面，就透過可以用`SKStoreProductViewController`顯示App的細項。
+要注意的事情是，這個`SKStoreProductViewController`，只能在實機測試，在Simulator(模擬器)裡是跑不出來的；下方有完整的Apple文件可以參考，還蠻好懂的！
 ```
 func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -936,7 +936,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 <img src="https://github.com/dwhao84/HW48-App-store/blob/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_Support%20DarkMode.dataset/HW48_AppStore_Support%20DarkMode.gif" width="385" height="800"/>
 </p>
 
-用Struct的方式建立Colors的data，並用static let的方式建立ˋCustomBackgroundColorˋ，以便使用這個ˋColors.CustomBackgroundColorˋ的方法去呈現，根據是否為Dark mode的狀態去調整背景及字體顏色。
+用Struct的方式建立Colors的data，並用`static let`的方式建立`CustomBackgroundColor`，以便使用這個`Colors.CustomBackgroundColor`的方法去呈現，根據是否為Dark mode的狀態去調整背景及字體顏色。
 
 ```
 import UIKit
