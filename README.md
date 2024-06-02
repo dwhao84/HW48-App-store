@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/AppStore_Banner.imageset/AppStore_Banner.jpg" width="1024" height="576"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/AppStore_Banner.imageset/AppStore_Banner.jpg" width="700" height="360"/>
 </p>
 #  HW#48 - App Store 
 
@@ -490,6 +490,7 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 ```
 
 > Reference:
+
 [利用多個 container view切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
 
 
@@ -516,10 +517,10 @@ private let paidAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v
 
 再來建議解析API的資料結構，我們可以把API網址貼到Postman裡面，去查看整個資料結構是如何建立的~
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_FreeApp.imageset/CleanShot%202024-06-02%20at%2012.17.16%402x.png" width="3216" height="2090"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_FreeApp.imageset/CleanShot%202024-06-02%20at%2012.17.16%402x.png" width="700" height="360"/>
 </p>
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_PaidApp.imageset/CleanShot%202024-06-02%20at%2012.14.57%402x.png" width="3216" height="2090"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_PaidApp.imageset/CleanShot%202024-06-02%20at%2012.14.57%402x.png" width="700" height="360"/>
 </p>
 
 下列為解析完的資料結構。
