@@ -2,14 +2,14 @@
 
 這次的練習，主要是練習如何串接App store的API，顯示App store榜上25個熱門的Apps，再利用Segmented Control切換付費版以及免費版的內容。
 
-### 功能和畫面需求:
+## 功能和畫面需求:
 * 利用 segmented control 切換 Free Apps / Paid Apps 列表
 * 從 RSS Feed Generator API 取得 App 排行榜
 * 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API
 * 利用 SKStoreProductViewController 顯示 App 的購買頁面
 * 支援Dark Mode
 
-### 利用 segmented control 切換 Free Apps / Paid Apps 列表:
+## 利用 segmented control 切換 Free Apps / Paid Apps 列表:
 <p align="center">
 <img src="https://github.com/dwhao84/HW48-App-store/blob/main/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_SegmentedControl_switched.dataset/HW48_AppStore_SegmentedControl_switched.gif" width="385" height="800"/>
 </p>
@@ -58,7 +58,7 @@
 ```
 
 * 設定freeAppsTableViewCell & paidAppsTableViewCell:
-#### FreeAppsTableViewCell:
+### FreeAppsTableViewCell:
 
 ```
 import UIKit
@@ -251,7 +251,7 @@ class FreeAppsTableViewCell: UITableViewCell {
 })
 ```
 
-##### PaidAppsTableViewCell:
+#### PaidAppsTableViewCell:
 
 ```
 import UIKit
@@ -487,7 +487,7 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 ![利用多個 container view 切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
 
 
-### 從 RSS Feed Generator API 取得 App 排行榜:
+## 從 RSS Feed Generator API 取得 App 排行榜:
 
 這次的API是由RSS Feed Generator裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
 > ![RSS Feed Generator](https://medium.com/r?url=https%3A%2F%2Frss.applemarketingtools.com%2F)
@@ -662,7 +662,7 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 > 連結2
 * Result type:
 
-### 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API:
+## 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API:
 
 
 由於我要從上方fetch paid App的data中取得App id，並透過iTunes API去找到付費App的各項資料，所以要先建立一個paidAppsId，作為存取App id裡字串的陣列。
@@ -850,7 +850,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 * URLComponents:
 
 ###
-### 利用 SKStoreProductViewController 顯示 App 的購買頁面:
+## 利用 SKStoreProductViewController 顯示 App 的購買頁面:
 * Import StoreKit
 ```
 import StoreKit
@@ -896,8 +896,8 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 * Offering media for sale in your app: 
 > 連結1
 
-###
-### 支援Dark Mode:
+
+## 支援Dark Mode:
 > 插入圖片
 
 用Struct的方式建立Colors的data，並用static let的方式建立ˋCustomBackgroundColorˋ，以便使用這個ˋColors.CustomBackgroundColorˋ的方法去呈現，根據是否為Dark mode的狀態去調整背景及字體顏色。
