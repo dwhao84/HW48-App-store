@@ -10,8 +10,8 @@
 
 ## 功能和畫面需求:
 * 利用 `segmented control` 切換 Free Apps / Paid Apps 列表
-* 從 RSS Feed Generator API 取得 App 排行榜
-* 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API
+* 從 **RSS Feed Generator API** 取得 App 排行榜
+* 點選列表的 App 後顯示 App 的詳細頁面，串接 **iTunes Search API**
 * 利用 `SKStoreProductViewController` 顯示 App 的購買頁面
 * 支援Dark Mode
 
@@ -501,7 +501,7 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 <img src="https://github.com/dwhao84/HW48-App-store/tree/98ae975008a9fc5874c686f9d21b8618487be15c/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_tableView.dataset" width="385" height="800"/>
 </p>
 
-這次的API是由RSS Feed Generator裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
+這次的API是由 **RSS Feed Generator** 裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
 
 <p align="center">
 <img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/RSS%20Builder.imageset/CleanShot%202024-06-02%20at%2000.00.07%402x.png" width="700" height="450"/>
@@ -679,6 +679,15 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 1. 提高程式可讀以及更容易維護
 1. 不會有模稜兩可的狀態，只有 Success 跟 Failure 兩種狀態
 
+| Status | Result | Network Error |
+| ----------- | ----------- | ----------- |
+| Success | Get Value |              |
+| Failure | Network Error | wrongURL |
+|         |               | Network Error | 
+|         |               | decode Error  | 
+|         |               | unexpectedStatusCode | 
+|         |               | noDataReceived | 
+
 > ### Reference:
 * URLSession: 
 
@@ -698,7 +707,7 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 
 ---
 
-由於我要從上方 `fetch paid App` 的data中取得App id ，並透過iTunes API去找到付費App的各項資料，所以要先建立一個 `paidAppsId` ，作為存取App id裡字串的陣列。
+由於我要從上方 `fetch paid App` 的data中取得App id ，並透過 **iTunes API** 去找到付費App的各項資料，所以要先建立一個 `paidAppsId` ，作為存取 **App id** 裡字串的陣列。
 ```
 var paidAppsId: [String]?
 ```
@@ -899,6 +908,7 @@ import StoreKit
 ```
 
 * 運用tableView's delegate裡的 `didSelectRowAt` ，當paidAppTableView的內容被選取時，建立一個常數為 `selectedPaidId` ，做為存取paidApps裡面的id值，並且將得到的id傳到 `SKStoreProductParameterITunesItemIdentifier` 裡面，就透過可以用 `SKStoreProductViewController` 顯示App的細項。
+
 要注意的事情是，這個 `SKStoreProductViewController` ，只能在實機測試，在Simulator(模擬器)裡是跑不出來的；下方有完整的Apple文件可以參考，還蠻好懂的！
 ```
 func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
