@@ -484,13 +484,13 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 ```
 
 > Reference:
-![利用多個 container view 切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
+[利用多個 container view 切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
 
 
 ## 從 RSS Feed Generator API 取得 App 排行榜:
 
 這次的API是由RSS Feed Generator裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
-![RSS Feed Generator](https://medium.com/r?url=https%3A%2F%2Frss.applemarketingtools.com%2F)
+[RSS Feed Generator](https://medium.com/r?url=https%3A%2F%2Frss.applemarketingtools.com%2F)
 
 這次主要是使用App Store排名前25個App的內容，做為練習，所以首先分別建立兩個不同的API網址，在AppViewController裡面。
 
