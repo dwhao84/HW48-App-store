@@ -442,7 +442,7 @@ class PaidAppsTableViewCell: UITableViewCell {
 })
 ```
 
-* 利用Closure的寫法，建立_segmentedControl_。
+* 利用Closure的寫法，建立 segmentedControl。
 ```
 // MARK: - UI Setup:
     var segmenteControl = {
@@ -455,7 +455,7 @@ class PaidAppsTableViewCell: UITableViewCell {
     } ()
 ```
 
-* <pre><code>segmentedControl<code><pre>加上addTarget ，以確保segmentedControl有連上segmentedControlValueChanged的method。
+* segmentedControl 加上addTarget ，以確保segmentedControl有連上segmentedControlValueChanged的method。
 ```
 segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
 ```
@@ -500,6 +500,7 @@ private let paidAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v
 ```
 
 再來建議解析API的資料結構，我們可以把API網址貼到Postman裡面，去查看整個資料結構是如何建立的~
+> 插入照片
 
 下列為解析完的資料結構。
 ```
@@ -657,8 +658,8 @@ fetchFreeAppsData(url: freeAppStoreUrl) { result in
 
 > Reference:
 * URLSession: 
-連結1
-連結2
+> 連結1
+> 連結2
 * Result type:
 
 ### 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API:
@@ -847,9 +848,72 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 > Reference:
 * URLComponents:
+ 
+### 利用 SKStoreProductViewController 顯示 App 的購買頁面:
+* Import StoreKit
+```
+import StoreKit
+```
+
+* 運用tableView's delegate裡的didSelectRowAt，當paidAppTableView的內容被選取時，建立一個常數為selectedPaidId，做為存取paidApps裡面的id值，並且將得到的id傳到SKStoreProductParameterITunesItemIdentifier裡面，就透過可以用SKStoreProductViewController顯示App的細項。
+要注意的事情是，這個SKStoreProductViewController，只能在實機測試，在Simulator(模擬器)裡是跑不出來的；下方有完整的Apple文件可以參考，還蠻好懂的！
+```
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if tableView == paidAppTableView {
+            
+            let selectedPaidAppId = paidAppsData?.feed.results[indexPath.row].id
+            
+            print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
+            print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
+            
+            let store = SKStoreProductViewController()
+            store.delegate = self
+            
+            let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedPaidAppId]
+            store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
+            present(store, animated: true, completion: nil)
+            
+        } else if tableView == freeAppTableView {
+            
+            let selectedPaidAppId = freeAppsData?.feed.results[indexPath.row].id
+            
+            print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
+            print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
+            
+            let store = SKStoreProductViewController()
+            store.delegate = self
+            
+            let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedPaidAppId]
+            store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
+            present(store, animated: true, completion: nil)
+        }
+    }
+```
+
+> Reference:
+* Offering media for sale in your app: 
+> 連結1
+
+### 支援Dark Mode:
+> 插入圖片
+
+用Struct的方式建立Colors的data，並用static let的方式建立CustomBackgroundColor，以便使用這個Colors.CustomBackgroundColor的方法去呈現，根據是否為Dark mode的狀態去調整背景及字體顏色。
 
 
+```
+import UIKit
 
+struct Colors {
+    static let CustomTitleColor: UIColor      = UIColor(named: "CustomColor") ?? UIColor.white
+    static let CustomBackgroundColor: UIColor = UIColor(named: "CustomBackgroundColor") ?? Colors.black
+}
+```
+
+> Reference:
+* Supporting Dark Mode in Your Interface
+> 連結1
+> 連結2
 
 ### Library:
 * [KingFisher](https://github.com/onevcat/Kingfisher.git)
