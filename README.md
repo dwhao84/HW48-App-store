@@ -1,7 +1,8 @@
 <p align="center">
 <img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/AppStore_Banner.imageset/AppStore_Banner.jpg" width="700" height="450"/>
 </p>
-#  HW#48 - App Store 
+
+# HW#48 - App Store 
 
 這次的練習，主要是練習如何串接App store的API，顯示App store榜上25個熱門的Apps，再利用`Segmented Control`切換付費版以及免費版的內容。
 
@@ -20,7 +21,7 @@
 </p>
 
 
-* 先建立兩個tableView，分別為freeTableView & paidTableView。
+* 先建立兩個tableView，分別為`freeTableView` & `paidTableView`。
 
 ```
      var freeAppTableView: UITableView = {
@@ -651,7 +652,7 @@ FetchFreeAppsData:
     }
 ```
 
-再來是call這個function的result，放到viewDidLoad裡面去建立，當case是success的時候，則讓資料會存到`freeAppsData`裡面。
+再來是call這個function的result，放到`viewDidLoad`裡面去建立，當case是success的時候，則讓資料會存到`freeAppsData`裡面。
 ```
 switch result {
             case .success(let appStoreData):
