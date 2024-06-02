@@ -18,13 +18,13 @@
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     } ()
+    
      var paidAppTableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     } () 
-
-
+```
 
 
 
