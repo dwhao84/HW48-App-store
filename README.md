@@ -58,7 +58,7 @@
 ```
 
 * 設定freeAppsTableViewCell & paidAppsTableViewCell:
-##### FreeAppsTableViewCell:
+#### FreeAppsTableViewCell:
 
 ```
 import UIKit
@@ -455,12 +455,12 @@ class PaidAppsTableViewCell: UITableViewCell {
     } ()
 ```
 
-* _segmentedControl 加上addTarget ，以確保segmentedControl有連上segmentedControlValueChanged的method。
+* <pre><code>segmentedControl<code><pre>加上addTarget ，以確保segmentedControl有連上segmentedControlValueChanged的method。
 ```
 segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
 ```
 
-* 用 <@objc func>的寫法，建立segmentedControlValueChanged，再用sender.selectedSegmentIndex來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
+* 用 @objc func的寫法，建立segmentedControlValueChanged，再用sender.selectedSegmentIndex來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
 
 ```
 // MARK: - Add Actions:
