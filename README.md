@@ -460,7 +460,7 @@ class PaidAppsTableViewCell: UITableViewCell {
 segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
 ```
 
-* 用_@objc func的寫法，建立segmentedControlValueChanged，再用sender.selectedSegmentIndex來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
+* 用 @objc func的寫法，建立segmentedControlValueChanged，再用sender.selectedSegmentIndex來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
 
 ```
 // MARK: - Add Actions:
@@ -483,9 +483,8 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
     }
 ```
 
-> * Reference:
-
-> ![利用多個 container view 切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
+> Reference:
+![利用多個 container view 切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
 
 
 ### 從 RSS Feed Generator API 取得 App 排行榜:
