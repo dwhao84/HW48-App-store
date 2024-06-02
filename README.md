@@ -8,10 +8,10 @@
 [#6 App Store 的 Free Apps / Paid Apps 排行榜](https://medium.com/彼得潘的真實-ios-app-畫面功能復刻/6-app-store-的-free-apps-paid-apps-排行榜-87678082fa80)
 
 ## 功能和畫面需求:
-* 利用 segmented control 切換 Free Apps / Paid Apps 列表
+* 利用 `segmented control` 切換 Free Apps / Paid Apps 列表
 * 從 RSS Feed Generator API 取得 App 排行榜
 * 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API
-* 利用 SKStoreProductViewController 顯示 App 的購買頁面
+* 利用 `SKStoreProductViewController` 顯示 App 的購買頁面
 * 支援Dark Mode
 
 ## 利用 segmented control 切換 Free Apps / Paid Apps 列表:
@@ -36,7 +36,7 @@
     } () 
 ```
 
-* 設定tableView內容，依照不同的tableView連接不同tableViewCell，並加上refreshControl 。
+* 設定tableView內容，依照不同的tableView連接不同tableViewCell，並加上`refreshControl` 。
 
 ```
 // MARK: - Configure TableViews:
@@ -63,7 +63,7 @@
     }
 ```
 
-* 設定freeAppsTableViewCell & paidAppsTableViewCell:
+* 設定`freeAppsTableViewCell` & `paidAppsTableViewCell`:
 ### FreeAppsTableViewCell:
 
 ```
@@ -466,7 +466,7 @@ class PaidAppsTableViewCell: UITableViewCell {
 segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
 ```
 
-* 用 @objc func的寫法，建立`segmentedControlValueChanged`，再用`sender.selectedSegmentIndex`來切換不同tableView的內容，當case等於0的時候，顯示freeAppTableView；當case 為1時，顯示paidAppTableView。
+* 用 `@objc func`的寫法，建立`segmentedControlValueChanged`，再用`sender.selectedSegmentIndex`來切換不同tableView的內容，當case等於0的時候，顯示`freeAppTableView`；當case 為1時，顯示`paidAppTableView`。
 
 ```
 // MARK: - Add Actions:
@@ -490,8 +490,7 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 ```
 
 > Reference:
-
-> [利用多個 container view 切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
+[利用多個 container view切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
 
 
 ## 從 RSS Feed Generator API 取得 App 排行榜:
@@ -503,12 +502,12 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 這次的API是由RSS Feed Generator裡面找到的，裡面可以找到各個國家的各種資料(書籍 / App / Music / 廣播)，並且運用設定好的參數產生一個API，並且顯示你要的資料。
 
 <p align="center">
-<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/RSS%20Builder.imageset/CleanShot%202024-06-02%20at%2000.00.07%402x.png" width="3216" height="1090"/>
+<img src="https://github.com/dwhao84/HW48-App-store/blob/08d1d4652c2408d548b139ec4a57c3d31c2d9d1e/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/RSS%20Builder.imageset/CleanShot%202024-06-02%20at%2000.00.07%402x.png" width="3216" height="900"/>
 </p>
 
 [RSS Feed Generator](https://medium.com/r?url=https%3A%2F%2Frss.applemarketingtools.com%2F)
 
-這次主要是使用App Store排名前25個App的內容，做為練習，所以首先分別建立兩個不同的API網址，在AppViewController裡面。
+這次主要是使用App Store排名前25個App的內容，做為練習，所以首先分別建立兩個不同的API網址，在`AppViewController`裡面。
 
 ```
 private let freeAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
@@ -516,7 +515,12 @@ private let paidAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v
 ```
 
 再來建議解析API的資料結構，我們可以把API網址貼到Postman裡面，去查看整個資料結構是如何建立的~
-> 插入照片
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_FreeApp.imageset/CleanShot%202024-06-02%20at%2012.17.16%402x.png" width="3216" height="2090"/>
+</p>
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_PaidApp.imageset/CleanShot%202024-06-02%20at%2012.14.57%402x.png" width="3216" height="2090"/>
+</p>
 
 下列為解析完的資料結構。
 ```
@@ -573,8 +577,10 @@ struct Result: Codable {
 }
 ```
 
-再來，就是運用之前所學的`URLSesson.shared.dataTask`的方式，再將API網址用JSON Decoder的方式解析網頁資料，在之前的練習的時候，我沒用到`Result type`的寫法，但在這次的練習當中，我有運用到`Result type`的寫法，因為用了`Result type`的寫法，比較好抓到當網路沒辦法串接時的問題所在，可以有效知道是在哪個環節出了問題，是在Data端呢? 還是在httpResponse 出現了問題? 還是在網址的地方撰寫錯了? 都可以從`Result type`的寫法，清楚的知道整個網路串接的狀況。
-在這段程式中，最後會將Decode過後的`appStoreDatas`儲存到我設定的`freeAppsData`裡面，以便將儲存好的資料內容，把資料顯示在未來的tableView上面。
+再來，就是運用之前所學的`URLSesson.shared.dataTask`的方式，再將API網址用JSON
+Decoder的方式解析網頁資料，在之前的練習的時候，我沒用到`Result type`的寫法，但在這次的練習當中，
+我有運用到`Result type`的寫法，因為用了`Resulttype`的寫法，比較好抓到當網路沒辦法串接時的問題所在，可以有效知道是在哪個環節出了問題，是在Data端呢? 還是在`httpResponse`出現了問題? 還是在網址的地方撰寫錯了? 都可以從`Result type`的寫法，
+清楚的知道整個網路串接的狀況。在這段程式中，最後會將Decode過後的`appStoreDatas`儲存到我設定的`freeAppsData`裡面，以便將儲存好的資料內容，把資料顯示在未來的tableView上面。
 
 ```
 var freeAppsData: AppStore?
@@ -625,9 +631,8 @@ FetchFreeAppsData:
     }
 ```
 
-再來就是建立Result type時，可以用表格的方式理解，當Networking進行的時候會遇到不同的狀態，而Networking的結果，會用enum切換狀態，
+再來就是建立`Result type`時，可以用表格的方式理解，當Networking進行的時候會遇到不同的狀態，而Networking的結果，會用enum切換狀態，
 所以會有下面那段程式的寫法。
-
 
 ```
 // MARK: - Result type:
@@ -703,7 +708,9 @@ var paidAppPrice: iTunes?
 
 由於我先隨便套用了一個app id作為Postman測試，看看能不能從中取到app的price，看來是可以。
 
-> 插入照片連結
+<p align="center">
+<img src="https://github.com/dwhao84/HW48-App-store/blob/73c53f55d6cff685e61db6a6937f18ca17e3bad3/HW48-App%20store/Supporting%20FIles/Assets.xcassets/README%20Img%20Source/Postman_iTunes.imageset/CleanShot%202024-06-02%20at%2018.39.54%402x.png" width="3216" height="2090"/>
+</p>
 
 再來就是建立iTunes的資料結構。
 ```
