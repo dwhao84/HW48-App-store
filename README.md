@@ -932,7 +932,10 @@ struct Colors {
 
 > Reference:
 * Supporting Dark Mode in Your Interface
+
 [Supporting Dark Mode in Your Interface](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface)
+* StackOverflow:
+
 [How do I easily support light and dark mode with a custom color used in my app?](https://stackoverflow.com/questions/56487679/how-do-i-easily-support-light-and-dark-mode-with-a-custom-color-used-in-my-app)
 
 ### Library:
