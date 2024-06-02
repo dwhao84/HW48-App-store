@@ -484,6 +484,7 @@ segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged),
 ```
 
 > Reference:
+
 > [利用多個 container view 切換頁面](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用多個-container-view-切換頁面-6d00fe848572)
 
 
@@ -849,8 +850,11 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 > Reference:
 * URLComponents:
+> 1. [使用 baseURL，URLComponents & URLQueryItem 產生URL](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/使用-baseurl-urlcomponents-urlqueryitem-產生-url-1e4539a33a89) 
+> 1. [URLComponents](https://developer.apple.com/documentation/foundation/urlcomponents?source=post_page-----1e4539a33a89--------------------------------)
+> 1. [joined(separator:)](https://developer.apple.com/documentation/swift/array/joined(separator:)-7uber)
 
-###
+
 ## 利用 SKStoreProductViewController 顯示 App 的購買頁面:
 * Import StoreKit
 ```
@@ -895,7 +899,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
 > Reference:
 * Offering media for sale in your app: 
-> 連結1
+> [Offering media for sale in your app](https://developer.apple.com/documentation/storekit/offering_media_for_sale_in_your_app)
 
 
 ## 支援Dark Mode:
@@ -915,8 +919,8 @@ struct Colors {
 
 > Reference:
 * Supporting Dark Mode in Your Interface
-> 連結1
-> 連結2
+> [Supporting Dark Mode in Your Interface](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface)
+> [How do I easily support light and dark mode with a custom color used in my app?](https://stackoverflow.com/questions/56487679/how-do-i-easily-support-light-and-dark-mode-with-a-custom-color-used-in-my-app)
 
 ### Library:
 * [KingFisher](https://github.com/onevcat/Kingfisher.git)
