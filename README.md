@@ -1,71 +1,37 @@
 #  HW#48 - App Store 
 
-## Key Components
-### Constants
-* largetTitle: Title for the navigation bar.
-* freeAppStoreUrl and paidAppStoreUrl: URLs to fetch top free and paid apps.
+這次的練習，主要是練習如何串接App store的API，顯示App store榜上25個熱門的Apps，再利用Segmented Control切換付費版以及免費版的內容。
 
-### Variables
-* freeAppsData and paidAppsData: Hold the data for free and paid apps.
-* activityIndicator: Shows loading status.
-* paidAppPrice: Holds the price information for paid apps.
+### 功能和畫面需求:
+* 利用 segmented control 切換 Free Apps / Paid Apps 列表
+* 從 RSS Feed Generator API 取得 App 排行榜
+* 點選列表的 App 後顯示 App 的詳細頁面，串接 iTunes Search API
+* 利用 SKStoreProductViewController 顯示 App 的購買頁面
+* 支援Dark Mode
 
-## UI Elements
+### 利用 segmented control 切換 Free Apps / Paid Apps 列表:
+* 先建立兩個tableView，分別為freeTableView & paidTableView。
+'var freeAppTableView: UITableView = {
+        let tableView: UITableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    } ()
+    
+    var paidAppTableView: UITableView = {
+        let tableView: UITableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    } ()'
+
+
+
+
+
 * segmenteControl: Segmented control to switch between free and paid apps.
 <p align="center">
 <img src="https://github.com/dwhao84/HW48-App-store/blob/main/HW48-App%20store/Supporting%20FIles/Assets.xcassets/Demo%20Gif/HW48_AppStore_SegmentedControl_switched.dataset/HW48_AppStore_SegmentedControl_switched.gif" width="385" height="800"/>
 </p>
 
-
-* freeAppTableView and paidAppTableView: Table views to display free and paid apps respectively.
-* allAppBtn: Button to show all apps.
-* refreshControl: Allows pull-to-refresh functionality.
-
-## Life Cycle Methods
-#### viewDidLoad()
-* Sets up UI components and fetches initial data for free and paid apps.
-
-## UI Setup Methods
-#### setupUI()
-* Initializes and configures the UI elements.
-* Fetches app data using fetchFreeAppsData and fetchPaidAppsData.
-
-#### setNavigationView()
-* Configures the navigation bar appearance.
-
-#### configFreeTableView() and configPaidTableView()
-* Configure the properties of the table views.
-
-## Data Fetching Methods
-
-#### fetchFreeAppsData(url:completion:) and fetchPaidAppsData(url:completion:)
-* Fetch data from the provided URLs.
-* Handle and decode JSON responses.
-#### fetchITunesData()
-* Fetch additional iTunes data for paid apps.
-
-## User Interaction Methods
-#### segmentedControlValueChanged(_:)
-* Switches between free and paid app views based on the selected segment.
-
-#### refreshControlActivited(_:)
-* Ends refreshing animation when the user pulls to refresh.
-#### allAppsBtn(_:)
-* Prints a debug statement when the "All Apps" button is pressed.
-
-## Table View Delegate and Data Source Methods
-#### tableView(_:numberOfRowsInSection:)
-* Returns the number of rows in each table view based on the available data.
-
-#### tableView(_:cellForRowAt:)
-* Configures and returns the cell for each row in the table views.
-
-#### tableView(_:didSelectRowAt:)
-* Handles the selection of a row in the table views.
-* Presents the selected app in the _SKStoreProductViewController_.
-
-## Extensions
-##### The class conforms to _UITableViewDelegate_, _UITableViewDataSource_, and _SKStoreProductViewControllerDelegate_ to handle table view operations and d displaying app details.
 
 ## Library:
 * [KingFisher](https://github.com/onevcat/Kingfisher.git)
