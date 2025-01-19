@@ -25,7 +25,7 @@ class AppStoreViewController: UIViewController {
     var paidAppPrice: iTunes?
     
     // MARK: - UI Setup:
-    var segmenteControl = {
+    let segmenteControl = {
         let segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: "Free App", at: 0, animated: true)
         segmentedControl.insertSegment(withTitle: "Paid App", at: 1, animated: true)
@@ -182,7 +182,6 @@ class AppStoreViewController: UIViewController {
         segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
 
         allAppBtn.addTarget(self, action: #selector(allAppsBtn), for: .touchUpInside)
-        
         freeTableViewRefreshControl.addTarget(self, action: #selector(freeTableViewRefreshControlActivited), for: .valueChanged)
         paidTableViewRefreshControl.addTarget(self, action: #selector(paidTableViewRefreshControlActivited), for: .valueChanged)
     }
@@ -217,7 +216,6 @@ class AppStoreViewController: UIViewController {
     
     // MARK: - Add Actions:
     @objc func segmentedControlValueChanged (_ sender: UISegmentedControl) {
-        
         switch sender.selectedSegmentIndex {
         case 0:
             print("DEBUG PRINT: Switch to Free App")
@@ -418,65 +416,38 @@ class AppStoreViewController: UIViewController {
 // MARK: - Extension:
 extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SKStoreProductViewControllerDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if tableView == paidAppTableView {
+        switch tableView {
+        case paidAppTableView:
             print("DEBUG PRINT: Paid App Data \(paidAppsData?.feed.results.count ?? 1)")
             return paidAppsData?.feed.results.count ?? 0
-        } else {
+        default:
             print("DEBUG PRINT: Free App Data \(freeAppsData?.feed.results.count ?? 1)")
             return freeAppsData?.feed.results.count ?? 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if tableView ==  paidAppTableView {
+        switch tableView {
+        case paidAppTableView:
             print("DEBUG PRINT: cellForRowAt -> paidAppTableView")
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: PaidAppsTableViewCell.identifier,
+                for: indexPath
+            ) as! PaidAppsTableViewCell
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: PaidAppsTableViewCell.identifier, for: indexPath) as! PaidAppsTableViewCell
-            
-            let appStoreIndexPath    = paidAppsData?.feed.results[indexPath.row]
-            let iTunesPriceIndexPath = paidAppPrice?.results[indexPath.row].price
-            
-            cell.appNameLabel.text       = appStoreIndexPath?.name
-            cell.numberLabel.text        = String(indexPath.row + 1)
-            
-            if let price = iTunesPriceIndexPath {
-                  let boldText = NSAttributedString(string: "NT$\(price)", attributes: [.font: UIFont.boldSystemFont(ofSize: 15)])
-                  cell.priceBtn.setAttributedTitle(boldText, for: .normal)
-              } else {
-                  let boldText = NSAttributedString(string: "Loading", attributes: [.font: UIFont.boldSystemFont(ofSize: 15)])
-                  cell.priceBtn.setAttributedTitle(boldText, for: .normal)
-              }
-            
-            cell.priceBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-            
-            if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
-                cell.iconImageView.kf.setImage(with: url)
-                print("DEBUG PRINT: paidAppTableView's Kingfisher is working.")
-            } else {
-                cell.iconImageView.image = UIImage(named: "01.png")
-                print("DEBUG PRINT: paidAppTableView's Kingfisher is not working.")
-            }
+            let appStoreData = paidAppsData?.feed.results[indexPath.row]
+            let iTunesPrice = paidAppPrice?.results[indexPath.row].price
+            // Set ranking number
+            cell.numberLabel.text = String(indexPath.row + 1)
+            // Configure cell with data
+            cell.configure(appStoreData: appStoreData, iTunesPrice: iTunesPrice)
             return cell
             
-        } else {
-            
+        default:
             print("DEBUG PRINT: cellForRowAt -> freeAppTableView")
-            
             let cell = tableView.dequeueReusableCell(withIdentifier: FreeAppsTableViewCell.identifier, for: indexPath) as! FreeAppsTableViewCell
-            
-            let appStoreIndexPath = freeAppsData?.feed.results[indexPath.row]
-            cell.appNameLabel.text       = appStoreIndexPath?.name
-            cell.numberLabel.text        = String(indexPath.row + 1)
-            cell.appDescripionLabel.text = appStoreIndexPath?.artistName
-            
-            if let imageURL = appStoreIndexPath?.artworkUrl100, let url = URL(string: imageURL) {
-                cell.iconImageView.kf.setImage(with: url)
-                print("DEBUG PRINT: freeAppTableView's Kingfisher is working.")
-            } else {
-                cell.iconImageView.image = UIImage(named: "01.png")
-                print("DEBUG PRINT: freeAppTableView's Kingfisher is not working.")
+            if let appStoreIndexPath = freeAppsData?.feed.results[indexPath.row] {
+                cell.configure(with: appStoreIndexPath, index: indexPath.row)
             }
             return cell
         }
@@ -484,35 +455,26 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if tableView == paidAppTableView {
-            
+        switch tableView {
+        case paidAppTableView:
             let selectedPaidAppId = paidAppsData?.feed.results[indexPath.row].id
-            
             print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
             print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
-            
-            let store = SKStoreProductViewController()
-            store.delegate = self
-            
-            let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedPaidAppId]
-            store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
-            present(store, animated: true, completion: nil)
-            
-        } else if tableView == freeAppTableView {
-            
-            let selectedPaidAppId = freeAppsData?.feed.results[indexPath.row].id
-            
+            showSKStoreProductVC(selectedID: selectedPaidAppId!)
+        default:
+            let selecteFreeAppStoreID = freeAppsData?.feed.results[indexPath.row].id
             print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
-            print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
-            
-            let store = SKStoreProductViewController()
-            store.delegate = self
-            
-            let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedPaidAppId]
-            store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
-            present(store, animated: true, completion: nil)
+            print("DEBUG PRINT: \(selecteFreeAppStoreID ?? "")")
+            showSKStoreProductVC(selectedID: selecteFreeAppStoreID!)
         }
+    }
+    
+    func showSKStoreProductVC(selectedID: String) {
+        let store = SKStoreProductViewController()
+        store.delegate = self
+        let parameters = [SKStoreProductParameterITunesItemIdentifier: selectedID]
+        store.loadProduct(withParameters: parameters as [String : Any], completionBlock: nil)
+        present(store, animated: true, completion: nil)
     }
 }
 
