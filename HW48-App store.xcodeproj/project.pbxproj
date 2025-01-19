@@ -71,6 +71,7 @@
 		D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidAppsTableViewCell.swift; sourceTree = "<group>"; };
 		D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppsTableViewCell.swift; sourceTree = "<group>"; };
 		D3C7434E2BF0CC1500FBB66C /* ImagesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesData.swift; sourceTree = "<group>"; };
+		D3D45AB12D3CDCF400E9A991 /* FreeAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppViewModel.swift; sourceTree = "<group>"; };
 		D3DE98C12BF66CC70071819C /* AppStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreModel.swift; sourceTree = "<group>"; };
 		D3DE98C32BF66CE90071819C /* iTunesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +142,7 @@
 				D3C7434D2BF0CB3C00FBB66C /* Constants */,
 				D38CCBD72BEBC41A00B1F7FA /* Info.plist */,
 				D38CCBCF2BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld */,
+				D3D45AB12D3CDCF400E9A991 /* FreeAppViewModel.swift */,
 			);
 			path = "HW48-App store";
 			sourceTree = "<group>";
