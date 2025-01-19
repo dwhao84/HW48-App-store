@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PaidAppsTableViewCell: UITableViewCell {
     
     static let identifier: String = "PaidAppsTableViewCell"
     
-    var iconImageView: UIImageView = {
+    let iconImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = Images.appIconTemplate
@@ -23,7 +24,7 @@ class PaidAppsTableViewCell: UITableViewCell {
         return imageView
     } ()
     
-    var numberLabel: UILabel = {
+    let numberLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "1"
         label.textColor = Colors.CustomTitleColor
@@ -35,7 +36,7 @@ class PaidAppsTableViewCell: UITableViewCell {
         return label
     } ()
     
-    var appNameLabel: UILabel = {
+    let appNameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "App Name"
         label.textColor = Colors.CustomTitleColor
@@ -46,7 +47,7 @@ class PaidAppsTableViewCell: UITableViewCell {
         return label
     } ()
     
-    var appDescripionLabel: UILabel = {
+    let appDescripionLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "App Description"
         label.textColor = Colors.lightGray
@@ -149,7 +150,6 @@ class PaidAppsTableViewCell: UITableViewCell {
     
     func configStackView () {
         numberLabel.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        
         appNameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 150).isActive = true
         
         iconImageView.widthAnchor.constraint(equalToConstant: 75).isActive = true
@@ -182,7 +182,40 @@ class PaidAppsTableViewCell: UITableViewCell {
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
         ])
+    }
+    
+    // In PaidAppsTableViewCell.swift
+    func configure(appStoreData: Result?, iTunesPrice: Double?) {
+        // Configure app name
+        if let appName = appStoreData?.name {
+            appNameLabel.text = appName
+        }
         
+        // Configure ranking number (expecting this to be set from outside)
+        // This will be handled by the indexPath parameter
+        
+        // Configure price button
+        if let price = iTunesPrice {
+            let boldText = NSAttributedString(
+                string: "NT$\(price)",
+                attributes: [.font: UIFont.boldSystemFont(ofSize: 15)]
+            )
+            priceBtn.setAttributedTitle(boldText, for: .normal)
+        } else {
+            let boldText = NSAttributedString(
+                string: "Loading",
+                attributes: [.font: UIFont.boldSystemFont(ofSize: 15)]
+            )
+            priceBtn.setAttributedTitle(boldText, for: .normal)
+        }
+        
+        // Configure app icon
+        if let imageURL = appStoreData?.artworkUrl100,
+           let url = URL(string: imageURL) {
+            iconImageView.kf.setImage(with: url)
+        } else {
+            iconImageView.image = UIImage(named: "01.png")
+        }
     }
 }
 

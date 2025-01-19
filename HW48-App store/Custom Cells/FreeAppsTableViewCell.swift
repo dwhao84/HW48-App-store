@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FreeAppsTableViewCell: UITableViewCell {
 
     static let identifier: String = "FreeAppsTableViewCell"
     
-    var iconImageView: UIImageView = {
+    let iconImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = Images.appIconTemplate
@@ -23,7 +24,7 @@ class FreeAppsTableViewCell: UITableViewCell {
         return imageView
     } ()
     
-    var numberLabel: UILabel = {
+    let numberLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "1"
         label.textColor = Colors.CustomTitleColor
@@ -35,7 +36,7 @@ class FreeAppsTableViewCell: UITableViewCell {
         return label
     } ()
     
-    var appNameLabel: UILabel = {
+    let appNameLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "App Name"
         label.textColor = Colors.CustomTitleColor
@@ -46,7 +47,7 @@ class FreeAppsTableViewCell: UITableViewCell {
         return label
     } ()
      
-    var appDescripionLabel: UILabel = {
+    let appDescriptionLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "App Description"
         label.textColor = Colors.lightGray
@@ -71,7 +72,6 @@ class FreeAppsTableViewCell: UITableViewCell {
         btn.configurationUpdateHandler = {
             btn in btn.alpha = btn.isHighlighted ? 0.5 : 1
         }
-        
         return btn
     } ()
     
@@ -165,7 +165,7 @@ class FreeAppsTableViewCell: UITableViewCell {
         
         // App名稱 & App產品說明
         contentStackView.addArrangedSubview(appNameLabel)
-        contentStackView.addArrangedSubview(appDescripionLabel)
+        contentStackView.addArrangedSubview(appDescriptionLabel)
         
         secondStackView.addArrangedSubview(imageContentStackView)
         secondStackView.addArrangedSubview(contentStackView)
@@ -182,7 +182,16 @@ class FreeAppsTableViewCell: UITableViewCell {
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
         ])
+    }
+    
+    func configure(with app: Result, index: Int) {
+        appNameLabel.text = app.name
+        numberLabel.text = String(index + 1)
+        appDescriptionLabel.text = app.artistName
         
+        if let imageURL = URL(string: app.artworkUrl100) {
+            iconImageView.kf.setImage(with: imageURL)
+        }
     }
 }
 
