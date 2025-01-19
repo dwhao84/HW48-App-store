@@ -26,6 +26,7 @@
 		D3C743472BF0C60900FBB66C /* PaidAppsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */; };
 		D3C743492BF0C63500FBB66C /* FreeAppsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */; };
 		D3C7434F2BF0CC1500FBB66C /* ImagesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C7434E2BF0CC1500FBB66C /* ImagesData.swift */; };
+		D3D45AB52D3CEF1300E9A991 /* AppStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D45AB42D3CEF1300E9A991 /* AppStoreViewModel.swift */; };
 		D3DE98C22BF66CC70071819C /* AppStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DE98C12BF66CC70071819C /* AppStoreModel.swift */; };
 		D3DE98C42BF66CE90071819C /* iTunesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DE98C32BF66CE90071819C /* iTunesModel.swift */; };
 /* End PBXBuildFile section */
@@ -71,7 +72,7 @@
 		D3C743462BF0C60900FBB66C /* PaidAppsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidAppsTableViewCell.swift; sourceTree = "<group>"; };
 		D3C743482BF0C63500FBB66C /* FreeAppsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppsTableViewCell.swift; sourceTree = "<group>"; };
 		D3C7434E2BF0CC1500FBB66C /* ImagesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesData.swift; sourceTree = "<group>"; };
-		D3D45AB12D3CDCF400E9A991 /* FreeAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppViewModel.swift; sourceTree = "<group>"; };
+		D3D45AB42D3CEF1300E9A991 /* AppStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppStoreViewModel.swift; path = ../../../AppStoreViewModel.swift; sourceTree = "<group>"; };
 		D3DE98C12BF66CC70071819C /* AppStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreModel.swift; sourceTree = "<group>"; };
 		D3DE98C32BF66CE90071819C /* iTunesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,6 +135,7 @@
 		D38CCBC52BEBC41900B1F7FA /* HW48-App store */ = {
 			isa = PBXGroup;
 			children = (
+				D3D45AB42D3CEF1300E9A991 /* AppStoreViewModel.swift */,
 				D38CCBF92BEBC43900B1F7FA /* Supporting FIles */,
 				D33703562BF39B5700185D48 /* Main View Controllers */,
 				D38CCC1A2BF0BBC900B1F7FA /* View Controllers */,
@@ -142,7 +144,6 @@
 				D3C7434D2BF0CB3C00FBB66C /* Constants */,
 				D38CCBD72BEBC41A00B1F7FA /* Info.plist */,
 				D38CCBCF2BEBC41900B1F7FA /* HW48_App_store.xcdatamodeld */,
-				D3D45AB12D3CDCF400E9A991 /* FreeAppViewModel.swift */,
 			);
 			path = "HW48-App store";
 			sourceTree = "<group>";
@@ -360,6 +361,7 @@
 				D38CCC152BEFCA7700B1F7FA /* SearchViewController.swift in Sources */,
 				D38CCBFB2BEBC48F00B1F7FA /* AppStoreViewController.swift in Sources */,
 				D38CCC082BEC991C00B1F7FA /* Colors.swift in Sources */,
+				D3D45AB52D3CEF1300E9A991 /* AppStoreViewModel.swift in Sources */,
 				D3C7434F2BF0CC1500FBB66C /* ImagesData.swift in Sources */,
 				D38CCBC92BEBC41900B1F7FA /* SceneDelegate.swift in Sources */,
 				D3DE98C42BF66CE90071819C /* iTunesModel.swift in Sources */,

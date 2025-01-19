@@ -12,19 +12,20 @@ import StoreKit
 class AppStoreViewController: UIViewController {
     
     let largetTitle: String = "Top Charts"
-    
-    private let freeAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-free/25/apps.json"
-    private let paidAppStoreUrl: String = "https://rss.applemarketingtools.com/api/v2/tw/apps/top-paid/25/apps.json"
+    private let viewModel = AppStoreViewModel()
     
     var freeAppsData: AppStore?
     var paidAppsData: AppStore?
-
-    var activityIndicator: UIActivityIndicatorView!
-    
-    var paidAppsId: [String]?
-    var paidAppPrice: iTunes?
     
     // MARK: - UI Setup:
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .customBackground
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     let segmenteControl = {
         let segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: "Free App", at: 0, animated: true)
@@ -75,64 +76,54 @@ class AppStoreViewController: UIViewController {
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        
-        
-        self.freeAppTableView.addSubview(activityIndicator)
-        self.paidAppTableView.addSubview(activityIndicator)
-        
         setupUI()
+        setupBindings()
+        viewModel.loadInitalData()
+    }
+    
+    private func setupBindings() {
+        viewModel.onFreeAppsDataUpdated = { [weak self] in
+            self?.freeAppTableView.reloadData()
+        }
         
-        fetchITunesData()
+        viewModel.onPaidAppsDataUpdated = { [weak self] in
+            self?.paidAppTableView.reloadData()
+        }
+        
+        viewModel.onPaidAppsPriceUpdated = { [weak self] in
+            self?.paidAppTableView.reloadData()
+        }
+        
+        viewModel.onError = { [weak self] error in
+            // 顯示錯誤訊息
+            let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self?.present(alert, animated: true)
+        }
+        
+        viewModel.isLoading = { [weak self] isLoading in
+            if isLoading {
+                self?.activityIndicator.startAnimating()
+            } else {
+                self?.activityIndicator.stopAnimating()
+            }
+        }
     }
     
     // MARK: - Set up UI:
     func setupUI () {
+        self.view.backgroundColor = Colors.CustomBackgroundColor
         
         freeAppTableView.isHidden = false
         paidAppTableView.isHidden = true
         
-        self.view.backgroundColor = Colors.CustomBackgroundColor
         addTargets()
         setNavigationView()
         addConstraints()
         
         configFreeTableView()
         configPaidTableView()
-        
-        fetchFreeAppsData(url: freeAppStoreUrl) { result in
-            switch result {
-            case .success(let appStoreData):
-                self.freeAppsData = appStoreData
-                DispatchQueue.main.async {
-                    self.freeAppTableView.reloadData()
-                }
-            case .failure(let error):
-                print("Failed to fetch free apps data: \(error)")
-            }
-        }
-
-        fetchPaidAppsData(url: paidAppStoreUrl) { result in
-            switch result {
-            case .success(let data):
-                self.paidAppsData = data
-                self.paidAppsId   = data.feed.results.map { $0.id } // 取得所有的Paid App的id
-                
-                print("\(self.paidAppsId!)")
-                
-                DispatchQueue.main.async {
-                    self.paidAppTableView.reloadData()
-                    self.fetchITunesData()
-                }
-            case .failure(let error):
-                print("Failed to fetch paid apps data: \(error)")
-            }
-        }
     }
-    
     
     // MARK: - Set up NavigationView:
     func setNavigationView () {
@@ -180,7 +171,7 @@ class AppStoreViewController: UIViewController {
     // MARK: - Add Targets:
     func addTargets () {
         segmenteControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
-
+        
         allAppBtn.addTarget(self, action: #selector(allAppsBtn), for: .touchUpInside)
         freeTableViewRefreshControl.addTarget(self, action: #selector(freeTableViewRefreshControlActivited), for: .valueChanged)
         paidTableViewRefreshControl.addTarget(self, action: #selector(paidTableViewRefreshControlActivited), for: .valueChanged)
@@ -245,172 +236,6 @@ class AppStoreViewController: UIViewController {
     @objc func allAppsBtn (_ sender: UIBarButtonItem) {
         print("DEBUG PRINT: allAppsBtn")
     }
-        
-    // MARK: - Result type:
-    enum Result<Value, Error: Swift.Error> {
-        case success(Value)
-        case failure(Error)
-    }
-    
-    enum NetworkError: Error {
-        case wrongURL
-        case requestFailed
-        case decodeError
-        case unexpectedStatusCode
-        case noDataReceived
-    }
-    
-    // MARK: - Fetch Free App Data:
-    func fetchFreeAppsData(url: String, completion: @escaping (Result<AppStore, NetworkError>) -> Void) {
-        guard let url = URL(string: url) else {
-
-            print("Unable to fetchFreeApps url")
-            completion(.failure(.wrongURL))
-            return
-        }
-        
-        DispatchQueue.main.async { self.activityIndicator.startAnimating() }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            
-            DispatchQueue.main.async { self?.activityIndicator.stopAnimating() }
-            
-            if let _ = error {
-                completion(.failure(.requestFailed))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Unable to get response")
-                completion(.failure(.unexpectedStatusCode))
-                return
-            }
-            
-            guard let data = data else {
-                print("Unable to get data")
-                completion(.failure(.noDataReceived))
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let appStoreDatas = try decoder.decode(AppStore.self, from: data)
-                self?.freeAppsData = appStoreDatas
-                completion(.success(appStoreDatas))
-            } catch {
-                completion(.failure(.decodeError))
-            }
-        }.resume()
-    }
-    
-    // MARK: - Fetch Paid Apps:
-    func fetchPaidAppsData(url: String, completion: @escaping (Result<AppStore, NetworkError>) -> Void) {
-
-        guard let url = URL(string: paidAppStoreUrl) else { return }
-        
-        // 當資料尚未讀取時，activity Indicator是轉動的
-        DispatchQueue.main.async { self.activityIndicator.startAnimating() }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            
-            print(String(data: data!, encoding: .utf8) ?? "Invalid data")
-            
-            // 當網路連接後，activity Indicator停止轉動。
-            DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
-            }
-            
-            // Define error:
-            if let _ = error {
-                completion(.failure(.requestFailed))
-                return
-            }
-            
-            // Define httpResponse:
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Unable to fetchPaidApps response")
-                 completion(.failure(.unexpectedStatusCode))
-                 return
-             }
-            
-            // Define data:
-            guard let data = data else {
-                print("Unable to fetchPaidApps data")
-                completion(.failure(.noDataReceived))
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let appStoreDatas = try decoder.decode(AppStore.self, from: data)
-                self?.paidAppsId = appStoreDatas.feed.results.map { $0.id }
-                print("PRINT All the id in do catch \(String(describing: self?.paidAppsId!))")
-                
-                completion(.success(appStoreDatas))
-            } catch {
-                completion(.failure(.decodeError))
-            }
-        }.resume()
-    }
-    
-    // MARK: - Fetch iTunes data:
-        func fetchITunesData() {
-            guard let paidAppsId = paidAppsId, !paidAppsId.isEmpty else {
-                print("paidAppsId is nil")
-                return
-            }
-
-            var urlComponents = URLComponents()
-            urlComponents.host   = "itunes.apple.com"
-            urlComponents.scheme = "https"
-            urlComponents.path   = "/lookup"
-            
-            // 将 paidAppsId 数组转换为逗号分隔的字符串
-            let idsString = paidAppsId.joined(separator: ",")
-            urlComponents.query = "id=\(idsString)&country=tw"
-            let appsUrl = urlComponents.url
-            print("\(appsUrl!)")
-
-            guard let url = appsUrl else {
-                print("DEBUG PRINT: Unable to get baseUrl in fetch iTunes data")
-                return
-            }
-
-            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-                print(String(data: data!, encoding: .utf8) ?? "Invalid data")
-
-                // Define error
-                if let error = error {
-                    print("DEBUG PRINT: Error fetching iTunes data: \(error.localizedDescription)")
-                    return
-                }
-
-                // Define httpResponse
-                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                    print("Error with response, unexpected status code: \(String(describing: response))")
-                    return
-                }
-
-                // Define data:
-                guard let data = data else {
-                    print("DEBUG PRINT: No iTunes data Received")
-                    return
-                }
-
-                do {
-                    let decoder = JSONDecoder()
-                    let iTunesData = try decoder.decode(iTunes.self, from: data)
-                    DispatchQueue.main.async {
-                        self?.paidAppPrice = iTunesData
-                        
-                        print("Prices: \(String(describing: self?.paidAppPrice))")
-                    }
-                } catch {
-                    print("Error decoding data: \(error.localizedDescription)")
-                    print("Full error: \(error)")
-                }
-            }.resume()
-        }
 }
 
 // MARK: - Extension:
@@ -418,54 +243,56 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case paidAppTableView:
-            print("DEBUG PRINT: Paid App Data \(paidAppsData?.feed.results.count ?? 1)")
-            return paidAppsData?.feed.results.count ?? 0
+            return viewModel.getPaidAppCount()
+        case freeAppTableView:
+            return viewModel.getFreeAppCount()
         default:
-            print("DEBUG PRINT: Free App Data \(freeAppsData?.feed.results.count ?? 1)")
-            return freeAppsData?.feed.results.count ?? 0
+            return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch tableView {
         case paidAppTableView:
-            print("DEBUG PRINT: cellForRowAt -> paidAppTableView")
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PaidAppsTableViewCell.identifier,
                 for: indexPath
             ) as! PaidAppsTableViewCell
             
-            let appStoreData = paidAppsData?.feed.results[indexPath.row]
-            let iTunesPrice = paidAppPrice?.results[indexPath.row].price
-            // Set ranking number
-            cell.numberLabel.text = String(indexPath.row + 1)
-            // Configure cell with data
-            cell.configure(appStoreData: appStoreData, iTunesPrice: iTunesPrice)
+            let appData = viewModel.getPaidApp(at: indexPath.row)
+            cell.configure(appStoreData: appData.appData, iTunesPrice: appData.price)
+            return cell
+            
+        case freeAppTableView:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: FreeAppsTableViewCell.identifier,
+                for: indexPath
+            ) as! FreeAppsTableViewCell
+            
+            if let appData = viewModel.getFreeApp(at: indexPath.row) {
+                cell.configure(with: appData, index: indexPath.row)
+            }
             return cell
             
         default:
-            print("DEBUG PRINT: cellForRowAt -> freeAppTableView")
-            let cell = tableView.dequeueReusableCell(withIdentifier: FreeAppsTableViewCell.identifier, for: indexPath) as! FreeAppsTableViewCell
-            if let appStoreIndexPath = freeAppsData?.feed.results[indexPath.row] {
-                cell.configure(with: appStoreIndexPath, index: indexPath.row)
-            }
-            return cell
+            return UITableViewCell() // 預設的 cell，實際使用時可能不會遇到這種情況
         }
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch tableView {
         case paidAppTableView:
-            let selectedPaidAppId = paidAppsData?.feed.results[indexPath.row].id
-            print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
-            print("DEBUG PRINT: \(selectedPaidAppId ?? "")")
-            showSKStoreProductVC(selectedID: selectedPaidAppId!)
+            if let selectedPaidAppId = paidAppsData?.feed.results[indexPath.row].id {
+                showSKStoreProductVC(selectedID: selectedPaidAppId)
+            }
+            
+        case freeAppTableView:
+            if let selecteFreeAppStoreID = freeAppsData?.feed.results[indexPath.row].id {
+                showSKStoreProductVC(selectedID: selecteFreeAppStoreID)
+            }
+            
         default:
-            let selecteFreeAppStoreID = freeAppsData?.feed.results[indexPath.row].id
-            print("DEBUG PRINT: Selected INDEX \(indexPath.row)")
-            print("DEBUG PRINT: \(selecteFreeAppStoreID ?? "")")
-            showSKStoreProductVC(selectedID: selecteFreeAppStoreID!)
+            break
         }
     }
     
@@ -481,6 +308,3 @@ extension AppStoreViewController: UITableViewDelegate, UITableViewDataSource, SK
 #Preview {
     UINavigationController(rootViewController: AppStoreViewController())
 }
-
-
-// TEST
