@@ -186,13 +186,15 @@ class PaidAppsTableViewCell: UITableViewCell {
     
     // In PaidAppsTableViewCell.swift
     func configure(appStoreData: Result?, iTunesPrice: Double?) {
-        // Configure app name
-        if let appName = appStoreData?.name {
+        // Configure app name and description
+        if let appName = appStoreData?.name,
+           let artistName = appStoreData?.artistName {
             appNameLabel.text = appName
+            appDescripionLabel.text = artistName
+        } else {
+            appNameLabel.text = "Unknown App"
+            appDescripionLabel.text = "Unknown Developer"
         }
-        
-        // Configure ranking number (expecting this to be set from outside)
-        // This will be handled by the indexPath parameter
         
         // Configure price button
         if let price = iTunesPrice {
@@ -212,7 +214,10 @@ class PaidAppsTableViewCell: UITableViewCell {
         // Configure app icon
         if let imageURL = appStoreData?.artworkUrl100,
            let url = URL(string: imageURL) {
-            iconImageView.kf.setImage(with: url)
+            iconImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "01.png")
+            )
         } else {
             iconImageView.image = UIImage(named: "01.png")
         }
